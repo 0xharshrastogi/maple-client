@@ -1,0 +1,10 @@
+@media (min-width: 640px) {
+  .landing {
+    grid-template-columns: 2fr 1fr;
+    /* grid-template-rows: 1fr 1fr; */
+  }
+
+  .landing p {
+    grid-column: 1/3;
+  }
+}
