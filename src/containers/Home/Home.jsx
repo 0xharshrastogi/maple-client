@@ -15,6 +15,8 @@ const Home = () => {
           <span className="text-red-600">Open</span>
         </h1>
 
+        {/* image */}
+
         <div className="flex justify-center image-wrapper">
           <img
             src={girlWithLappyImage}
@@ -22,6 +24,8 @@ const Home = () => {
             className="h-40 sm:h-48 md:h-80"
           />
         </div>
+
+        {/* textContent */}
 
         <p className="text-gray-600 font-medium text-center md:text-left md:text-lg leading-7 md:w-3/4">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus porro quos
