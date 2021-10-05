@@ -1,3 +1,5 @@
+/* ?Landing Section */
+
 @media (min-width: 640px) {
   .landing {
     grid-template-columns: 2fr 1fr;
@@ -26,4 +28,10 @@
   .landing p {
     grid-column: auto;
   }
+}
+
+/* ?Section 2 */
+
+.introduction h2 {
+  font-family: 'Montserrat Alternates', sans-serif;
 }

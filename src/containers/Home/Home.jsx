@@ -34,6 +34,22 @@ const Home = () => {
           libero!
         </p>
       </section>
+
+      {/* Section 2 Begins */}
+
+      <section className="mx-8 mt-12 sm:w-4/5 sm:mx-auto introduction">
+        {/* title of intro*/}
+        <div className="text-center space-y-5 text-gray-500 font-medium">
+          <h2 className="text-2xl font-bold text-gray-600">
+            <span className="text-red-600">All-In-One</span> Software Solution
+          </h2>
+
+          <p>
+            It is one of the powerfull online service that combaines the tools needed to
+            run a successfull instituion.
+          </p>
+        </div>
+      </section>
     </>
   );
 };
