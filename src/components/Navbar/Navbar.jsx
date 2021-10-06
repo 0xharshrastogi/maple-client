@@ -5,7 +5,7 @@ import './Navbar.css';
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center justify-between py-3 px-2 navbar">
+    <nav className="flex items-center justify-between py-3 px-2 navbar md:px-9">
       <h3 className="flex items-center space-x-2">
         <img src={logo} alt="Logo" className="h-12 sm:h-14" />
         <span className="text-2xl sm:text-4xl text-red-600 font-bold">Mapple</span>

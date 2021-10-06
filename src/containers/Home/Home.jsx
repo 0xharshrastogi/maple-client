@@ -1,5 +1,6 @@
 import React from 'react';
 import girlWithLappyImage from '../../assets/img/GirlWithLappy.svg';
+import Cards from '../../components/Cards/Cards';
 import Navbar from '../../components/Navbar/Navbar';
 import './landingSection.css';
 
@@ -49,6 +50,29 @@ const Home = () => {
             run a successfull instituion.
           </p>
         </div>
+        {/* Cards  */}
+        <article className="cards-container space-y-6">
+          <Cards logo="/hello" title="Easy Attendence Tracking">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
+            quisquam doloribus provident accusamus. Minus, natus repellat! Possimus,
+            soluta.
+          </Cards>
+          <Cards title="Easy Attendence Tracking">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
+            quisquam doloribus provident accusamus. Minus, natus repellat! Possimus,
+            soluta.
+          </Cards>
+          <Cards title="Easy Attendence Tracking">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
+            quisquam doloribus provident accusamus. Minus, natus repellat! Possimus,
+            soluta.
+          </Cards>
+          <Cards title="Easy Attendence Tracking">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
+            quisquam doloribus provident accusamus. Minus, natus repellat! Possimus,
+            soluta.
+          </Cards>
+        </article>
       </section>
     </>
   );

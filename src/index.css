@@ -9,6 +9,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+::-webkit-scrollbar {
+  background-color: wheat;
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(156, 163, 175);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(220, 38, 38);
+  border-radius: 10rem;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
 }
