@@ -35,3 +35,21 @@
 .introduction h2 {
   font-family: 'Montserrat Alternates', sans-serif;
 }
+
+/* ?feature */
+
+.feature .feature-data {
+  order: 1;
+}
+
+@media (min-width: 768px) {
+  .feature .image-wrapper {
+    flex: 4;
+    align-self: center;
+  }
+
+  .feature .feature-data {
+    flex: 5;
+    order: 0;
+  }
+}
