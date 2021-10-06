@@ -1,3 +1,5 @@
+import { faBook, faSchool } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import girlWithLappyImage from '../../assets/img/GirlWithLappy.svg';
 import Cards from '../../components/Cards/Cards';
@@ -50,24 +52,53 @@ const Home = () => {
             run a successfull instituion.
           </p>
         </div>
+
         {/* Cards  */}
-        <article className="cards-container space-y-6">
-          <Cards logo="/hello" title="Easy Attendence Tracking">
+        <article className="cards-container mx-auto space-y-14 mt-14 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:gap-y-14 sm:max-w-2xl lg:grid-cols-3 lg:max-w-6xl lg:gap-8 lg:gap-y-20 lg:mt-24">
+          <Cards
+            title="Easy Attendence Tracking"
+            logo={<FontAwesomeIcon color="white" icon={faSchool} />}
+          >
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
             quisquam doloribus provident accusamus. Minus, natus repellat! Possimus,
             soluta.
           </Cards>
-          <Cards title="Easy Attendence Tracking">
+          <Cards
+            title="Easy Attendence Tracking"
+            logo={<FontAwesomeIcon color="white" icon={faBook} />}
+          >
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
             quisquam doloribus provident accusamus. Minus, natus repellat! Possimus,
             soluta.
           </Cards>
-          <Cards title="Easy Attendence Tracking">
+          <Cards
+            title="Easy Attendence Tracking"
+            logo={<FontAwesomeIcon color="white" icon={faBook} />}
+          >
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
             quisquam doloribus provident accusamus. Minus, natus repellat! Possimus,
             soluta.
           </Cards>
-          <Cards title="Easy Attendence Tracking">
+          <Cards
+            title="Easy Attendence Tracking"
+            logo={<FontAwesomeIcon color="white" icon={faBook} />}
+          >
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
+            quisquam doloribus provident accusamus. Minus, natus repellat! Possimus,
+            soluta.
+          </Cards>
+          <Cards
+            title="Easy Attendence Tracking"
+            logo={<FontAwesomeIcon color="white" icon={faBook} />}
+          >
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
+            quisquam doloribus provident accusamus. Minus, natus repellat! Possimus,
+            soluta.
+          </Cards>
+          <Cards
+            title="Easy Attendence Tracking"
+            logo={<FontAwesomeIcon color="white" icon={faBook} />}
+          >
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
             quisquam doloribus provident accusamus. Minus, natus repellat! Possimus,
             soluta.

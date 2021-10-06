@@ -1,3 +1,15 @@
 .card {
   font-family: 'Montserrat Alternates', sans-serif;
 }
+
+.card-logo {
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: box-shadow 170ms ease-out, transform 100ms ease-in;
+}
+
+.card:hover .card-logo {
+  box-shadow: 0px 0px 13px 0 rgb(255 0 0 / 74%);
+  transform: translate(-50%, -50%) scale(1.1);
+}
