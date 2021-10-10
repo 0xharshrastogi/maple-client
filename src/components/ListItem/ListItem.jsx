@@ -6,16 +6,13 @@ const Logo = ({ children, className }) => {
 };
 
 const ListItem = ({ icon: Icon, children }) => {
-  console.log(Icon);
   return (
-    <li className="flex items-center gap-3">
+    <li className="flex items-center gap-3 text-gray-500 font-medium text-lg">
       {Icon && (
-        <Logo className="bg-red-600 h-8 w-8 rounded-full p-2 text-xl center self-start">
+        <Logo className="bg-red-600 h-8 w-8 rounded-full p-2 text-xl center self-start shadow-sm">
           {Icon}
         </Logo>
       )}
-
-      {null}
 
       {Icon ? <p>{children}</p> : children}
     </li>

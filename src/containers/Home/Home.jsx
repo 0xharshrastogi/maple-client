@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import girlWithLappyImage from '../../assets/img/GirlWithLappy.svg';
 import Cards from '../../components/Cards/Cards';
+import Footer from '../../components/Footer/Footer';
 import ListItem from '../../components/ListItem/ListItem';
 import Navbar from '../../components/Navbar/Navbar';
 import './landingSection.css';
@@ -22,7 +23,7 @@ const Feature = () => {
       </div>
 
       {/* points */}
-      <div className="space-y-16 mt-20">
+      <div className="space-y-40 mt-24">
         <article className="mx-auto flex flex-col md:flex-row md:justify-between md:gap-12 md:max-w-6xl">
           <div className="overflow-hidden rounded-xl mx-auto shadow-md max-w-sm image-wrapper">
             <img
@@ -32,8 +33,7 @@ const Feature = () => {
           </div>
           <div className="mt-6 space-y-5 md:space-y-10 feature-data md:mt-0">
             <h3 className="text-2xl font-bold text-gray-600">
-              A <span className="text-red-600">user interface</span> designed for
-              classroom.
+              A <span className="text-red-600">automated</span> attendence
             </h3>
             <ul className="space-y-4 md:ml-6">
               <ListItem icon={<FontAwesomeIcon color="white" icon={faAtom} />}>
@@ -135,27 +135,6 @@ const Introduction = () => {
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
           quisquam doloribus provident accusamus. Minus, natus repellat! Possimus, soluta.
         </Cards>
-        <Cards
-          title="Easy Attendence Tracking"
-          logo={<FontAwesomeIcon color="white" icon={faBook} />}
-        >
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
-          quisquam doloribus provident accusamus. Minus, natus repellat! Possimus, soluta.
-        </Cards>
-        <Cards
-          title="Easy Attendence Tracking"
-          logo={<FontAwesomeIcon color="white" icon={faBook} />}
-        >
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
-          quisquam doloribus provident accusamus. Minus, natus repellat! Possimus, soluta.
-        </Cards>
-        <Cards
-          title="Easy Attendence Tracking"
-          logo={<FontAwesomeIcon color="white" icon={faBook} />}
-        >
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magni fuga
-          quisquam doloribus provident accusamus. Minus, natus repellat! Possimus, soluta.
-        </Cards>
       </article>
     </section>
   );
@@ -203,6 +182,9 @@ const Home = () => {
 
       {/* ?section 3 Features */}
       <Feature />
+
+      {/* Footer */}
+      <Footer />
     </>
   );
 };
