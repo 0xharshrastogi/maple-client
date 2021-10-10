@@ -1,13 +1,13 @@
-export const userAction = {
+export const userActionType = {
   signIn: '@user/SIGNIN',
   signOut: '@user/SIGNOUT',
 };
 
-export default function userReducer(state = null, { type }) {
+export default function authenticateReducer(state = null, { type }) {
   switch (type) {
-    case userAction.signIn:
+    case userActionType.signIn:
       return true;
-    case userAction.signOut:
+    case userActionType.signOut:
       return false;
     default:
       return state;

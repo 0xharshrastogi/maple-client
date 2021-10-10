@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import brandLogo from '../../assets/img/logo.svg';
 import Button from '../Button/Button';
 import './Navbar.css';
@@ -25,6 +26,7 @@ import './Navbar.css';
  */
 
 const Navbar = ({ logo }) => {
+  const isSignedIn = useSelector((store) => store.isSignedIn);
   return (
     <nav className="flex items-center justify-between py-3 px-2 navbar md:px-9">
       <h3 className="flex items-center space-x-2">
@@ -32,12 +34,19 @@ const Navbar = ({ logo }) => {
         <span className="text-2xl sm:text-4xl text-red-600 font-bold">Mapple</span>
       </h3>
       {/* will render default untill logo is requiredOnly*/}
-      {!logo && (
+
+      {!logo && !isSignedIn && (
         <div className="space-x-3 sm:space-x-10">
           <Button to="/login">Login</Button>
           <Button to="/signup" type="secondary">
             Signup
           </Button>
+        </div>
+      )}
+
+      {!logo && isSignedIn && (
+        <div className="space-x-3 sm:space-x-10">
+          <Button>Logout</Button>
         </div>
       )}
     </nav>

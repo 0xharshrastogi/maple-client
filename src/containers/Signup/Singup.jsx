@@ -1,10 +1,9 @@
 import { faAmericanSignLanguageInterpreting } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import Navbar from '../../components/Navbar/Navbar';
-import { useGoogleAuth } from '../../hooks/useGoogleAuth';
 
 /**
  * Component for User Signup
@@ -12,25 +11,6 @@ import { useGoogleAuth } from '../../hooks/useGoogleAuth';
  */
 
 const UserSignup = () => {
-  const [isSigned, setIsSigned] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const { GoogleAuth, error: gAuthError } = useGoogleAuth(
-    process.env?.REACT_APP_GAPI_CLIENTID,
-    process.env?.REACT_APP_CLIENT_SECRET
-  );
-
-  useEffect(() => {
-    try {
-      if (gAuthError) throw gAuthError;
-      if (!GoogleAuth) return;
-
-      setIsSigned(GoogleAuth.isSignedIn.get());
-      setIsLoading(false);
-    } catch (e) {
-      console.error(e);
-    }
-  }, [GoogleAuth, gAuthError]);
-
   return (
     <>
       <Navbar logo />
@@ -48,16 +28,10 @@ const UserSignup = () => {
 
         {/* login with google */}
         <div className="mt-20">
-          {isLoading && 'Loading'}
-
-          {!isLoading && !isSigned ? (
-            <Button full>
-              <FontAwesomeIcon icon={faAmericanSignLanguageInterpreting} /> Login With
-              Google
-            </Button>
-          ) : (
-            'Already Signed In'
-          )}
+          <Button full>
+            <FontAwesomeIcon icon={faAmericanSignLanguageInterpreting} /> Login With
+            Google
+          </Button>
         </div>
       </section>
     </>

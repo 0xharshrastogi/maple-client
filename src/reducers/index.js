@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import userReducer from './user';
+import authenticateReducer from './user';
 
 const reducers = combineReducers({
-  isSignedIn: userReducer,
+  isSignedIn: authenticateReducer,
 });
 
 export default reducers;

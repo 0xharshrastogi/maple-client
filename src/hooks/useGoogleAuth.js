@@ -8,22 +8,23 @@ export function useGoogleAuth(clientId, apiKey) {
   useEffect(() => {
     function init() {
       gapi.load('client:auth2', async () => {
-        try {
-          await gapi.client.init({
-            scope: 'https://www.googleapis.com/auth/userinfo.email',
-            apiKey,
-            clientId,
-          });
+        await gapi.client.init({
+          scope: 'https://www.googleapis.com/auth/userinfo.email',
+          apiKey,
+          clientId,
+        });
 
-          setGoogleAuth(gapi.auth2.getAuthInstance());
-        } catch (e) {
-          setError(e);
-        }
+        setGoogleAuth(gapi.auth2.getAuthInstance());
       });
     }
 
-    init();
-  }, []);
+    try {
+      init();
+    } catch (e) {
+      console.log(error);
+      setError(e);
+    }
+  }, [clientId, apiKey]);
 
   return { GoogleAuth, error };
 }
