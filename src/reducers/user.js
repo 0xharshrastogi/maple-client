@@ -1,15 +1,14 @@
 export const userActionType = {
-  signIn: '@user/SIGNIN',
-  signOut: '@user/SIGNOUT',
+  addUser: '@user/ADD',
+  removeUser: '@user/REMOVE',
 };
 
-export default function authenticateReducer(state = null, { type }) {
-  switch (type) {
-    case userActionType.signIn:
-      return true;
-    case userActionType.signOut:
-      return false;
-    default:
-      return state;
+export default function userReducer(state = null, action) {
+  switch (action.type) {
+    case userActionType.addUser:
+      return { ...action.payload };
+    case userActionType.removeUser:
+      return null;
   }
+  return state;
 }

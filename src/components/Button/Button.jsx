@@ -31,7 +31,7 @@ const buttonStyles = {
  *
  */
 
-const Button = ({ children, type, disabled, to, full }) => {
+const Button = ({ children, type, disabled, to, full, ...rest }) => {
   if (to)
     return (
       <Link to={to} className={buttonStyles[type]}>
@@ -43,6 +43,7 @@ const Button = ({ children, type, disabled, to, full }) => {
     <button
       className={`${full && 'inline-block w-full'} ${buttonStyles[type]}`}
       disabled={disabled}
+      {...rest}
     >
       {children}
     </button>
@@ -62,6 +63,7 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   to: PropTypes.string,
   full: PropTypes.bool,
+  rest: PropTypes.object,
 };
 
 export default Button;

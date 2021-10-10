@@ -1,7 +1,9 @@
+/* eslint-disable no-undef */
 import PropTypes from 'prop-types';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import brandLogo from '../../assets/img/logo.svg';
+import { userActionType } from '../../reducers/user';
 import Button from '../Button/Button';
 import './Navbar.css';
 
@@ -27,6 +29,15 @@ import './Navbar.css';
 
 const Navbar = ({ logo }) => {
   const isSignedIn = useSelector((store) => store.isSignedIn);
+  const dispatch = useDispatch();
+
+  const handleLogOut = useCallback(() => {
+    const GoogleAuth = gapi.auth2.getAuthInstance();
+
+    GoogleAuth.signOut();
+    dispatch({ type: userActionType.removeUser });
+  }, [isSignedIn]);
+
   return (
     <nav className="flex items-center justify-between py-3 px-2 navbar md:px-9">
       <h3 className="flex items-center space-x-2">
@@ -46,7 +57,7 @@ const Navbar = ({ logo }) => {
 
       {!logo && isSignedIn && (
         <div className="space-x-3 sm:space-x-10">
-          <Button>Logout</Button>
+          <Button onClick={handleLogOut}>Logout</Button>
         </div>
       )}
     </nav>

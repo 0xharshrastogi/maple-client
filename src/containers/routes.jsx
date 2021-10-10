@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useGoogleAuth } from '../hooks/useGoogleAuth';
+import { authActionType } from '../reducers/authentication';
 import { userActionType } from '../reducers/user';
+import extractCurrentUserData from '../utils/extractCurrentUserData';
 import Home from './Home/Home';
 import UserSignup from './Signup/Singup';
 
@@ -11,8 +13,6 @@ const Routes = () => {
   const [loading, setLoading] = useState(true);
   const isSignIn = useSelector((state) => state?.isSignedIn);
   const dispatch = useDispatch();
-
-  console.log(isSignIn);
 
   const { GoogleAuth, error: GAuthError } = useGoogleAuth(
     process.env?.REACT_APP_GAPI_CLIENTID,
@@ -24,8 +24,13 @@ const Routes = () => {
       if (GAuthError) throw GAuthError;
       if (!GoogleAuth) return;
 
-      if (GoogleAuth.isSignedIn.get()) dispatch({ type: userActionType.signIn });
-      else dispatch({ type: userActionType.signOut });
+      if (GoogleAuth.isSignedIn.get()) {
+        const currentUser = GoogleAuth.currentUser.get();
+        const userData = extractCurrentUserData(currentUser.getBasicProfile());
+
+        dispatch({ type: authActionType.signIn });
+        dispatch({ type: userActionType.addUser, payload: userData });
+      } else dispatch({ type: authActionType.signOut });
 
       setLoading(false);
     } catch (e) {
