@@ -1,7 +1,8 @@
 import { faAmericanSignLanguageInterpreting } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import Navbar from '../../components/Navbar/Navbar';
 
@@ -11,6 +12,19 @@ import Navbar from '../../components/Navbar/Navbar';
  */
 
 const UserSignup = () => {
+  const isSignedIn = useSelector((store) => store.isSignedIn);
+  const history = useHistory();
+
+  const handelUserSignIn = useCallback(async () => {
+    try {
+      // eslint-disable-next-line no-undef
+      const GoogleAuth = gapi.auth2.getAuthInstance();
+      await GoogleAuth.signIn();
+      history.push('/');
+    } catch (e) {
+      console.error(e);
+    }
+  }, [isSignedIn]);
   return (
     <>
       <Navbar logo />
@@ -28,7 +42,7 @@ const UserSignup = () => {
 
         {/* login with google */}
         <div className="mt-20">
-          <Button full>
+          <Button full onClick={handelUserSignIn}>
             <FontAwesomeIcon icon={faAmericanSignLanguageInterpreting} /> Login With
             Google
           </Button>

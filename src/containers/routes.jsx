@@ -20,17 +20,28 @@ const Routes = () => {
   );
 
   useEffect(() => {
+    const handleCurrentUser = (GoogleAuth) => {
+      const currentUser = GoogleAuth.currentUser.get();
+      const userData = extractCurrentUserData(currentUser.getBasicProfile());
+
+      dispatch({ type: authActionType.signIn });
+      dispatch({ type: userActionType.addUser, payload: userData });
+    };
+
     try {
       if (GAuthError) throw GAuthError;
       if (!GoogleAuth) return;
 
-      if (GoogleAuth.isSignedIn.get()) {
-        const currentUser = GoogleAuth.currentUser.get();
-        const userData = extractCurrentUserData(currentUser.getBasicProfile());
+      if (GoogleAuth.isSignedIn.get()) handleCurrentUser(GoogleAuth);
+      else dispatch({ type: authActionType.signOut });
 
-        dispatch({ type: authActionType.signIn });
-        dispatch({ type: userActionType.addUser, payload: userData });
-      } else dispatch({ type: authActionType.signOut });
+      GoogleAuth.isSignedIn.listen((isLogin) => {
+        if (!isLogin) {
+          dispatch({ type: authActionType.signOut });
+          dispatch({ type: userActionType.removeUser });
+          return;
+        } else handleCurrentUser(GoogleAuth);
+      });
 
       setLoading(false);
     } catch (e) {
