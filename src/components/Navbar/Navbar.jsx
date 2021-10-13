@@ -14,12 +14,6 @@ import './Navbar.css';
  * @property {boolean} logo If true renders only the brand logo in navbar
  */
 
-// /**
-//  *
-//  * @param {NavbarProps} props
-//  * @returns {JSX}
-//  */
-
 /**
  * Component for Navbar
  *
@@ -54,6 +48,7 @@ const Navbar = ({ logo }) => {
       {!logo && isSignedIn && (
         <div className="space-x-3 sm:space-x-10">
           <Button onClick={handleLogOut}>Logout</Button>
+          <Button></Button>
         </div>
       )}
     </nav>
