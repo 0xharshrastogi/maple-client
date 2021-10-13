@@ -6,6 +6,7 @@ import { authActionType } from '../reducers/authentication';
 import { userActionType } from '../reducers/user';
 import extractCurrentUserData from '../utils/extractCurrentUserData';
 import Home from './Home/Home';
+import UserLogin from './Login/Login';
 import UserSignup from './Signup/Singup';
 
 const Routes = () => {
@@ -72,6 +73,12 @@ const Routes = () => {
         {!isSignIn && (
           <Route exact path="/signup">
             <UserSignup />
+          </Route>
+        )}
+
+        {!isSignIn && (
+          <Route path="/login">
+            <UserLogin />
           </Route>
         )}
 

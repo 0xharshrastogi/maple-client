@@ -8,11 +8,11 @@ import Button from '../../components/Button/Button';
 import Navbar from '../../components/Navbar/Navbar';
 
 /**
- * Component for User Signup
+ * Component for User Login
  * @returns {JSX.Element} Component JSX
  */
 
-const UserSignup = () => {
+const UserLogin = () => {
   const isSignedIn = useSelector((store) => store.isSignedIn);
   const history = useHistory();
 
@@ -45,12 +45,12 @@ const UserSignup = () => {
         <section className="mx-8 mt-10 md:flex md:flex-col md:justify-center md:ml-auto">
           <div className="">
             <h1 className="font-bold text-5xl text-red-600 md:text-6xl lg:text-8xl">
-              Get Started
+              Welcome
             </h1>
             <span className="mt-2 inline-block text-gray-400 font-medium">
-              Already A Member{' '}
-              <Link className="text-red-600 underline" to="/login">
-                Log In
+              New Member?{' '}
+              <Link className="text-red-600 underline" to="/signup">
+                Sign Up
               </Link>
             </span>
           </div>
@@ -68,4 +68,4 @@ const UserSignup = () => {
   );
 };
 
-export default UserSignup;
+export default UserLogin;

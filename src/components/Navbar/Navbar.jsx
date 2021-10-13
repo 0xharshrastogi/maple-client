@@ -48,7 +48,6 @@ const Navbar = ({ logo }) => {
       {!logo && isSignedIn && (
         <div className="space-x-3 sm:space-x-10">
           <Button onClick={handleLogOut}>Logout</Button>
-          <Button></Button>
         </div>
       )}
     </nav>
