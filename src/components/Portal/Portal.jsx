@@ -16,6 +16,7 @@ const Portal = ({ children }) => {
 
 Portal.propTypes = {
   children: PropTypes.any.isRequired,
+  ref: PropTypes.object,
 };
 
 export default Portal;

@@ -21,7 +21,7 @@ export function useGoogleAuth(clientId, apiKey) {
     try {
       init();
     } catch (e) {
-      console.log(error);
+      console.log(e);
       setError(e);
     }
   }, [clientId, apiKey]);

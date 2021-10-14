@@ -1,7 +1,6 @@
 import { faAmericanSignLanguageInterpreting } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import GirlWithBookImage from '../../assets/img/GirlWithBookBook.svg';
 import Button from '../../components/Button/Button';
@@ -13,7 +12,7 @@ import Navbar from '../../components/Navbar/Navbar';
  */
 
 const UserSignup = () => {
-  const isSignedIn = useSelector((store) => store.isSignedIn);
+  // const isSignedIn = useSelector((store) => store.isSignedIn);
   const history = useHistory();
 
   const handelUserSignIn = useCallback(async () => {
@@ -25,7 +24,7 @@ const UserSignup = () => {
     } catch (e) {
       console.error(e);
     }
-  }, [isSignedIn]);
+  }, [history]); // !!Note removed isSingedIn from deps if error occured fix this and uncomment the line: 15
 
   return (
     <>

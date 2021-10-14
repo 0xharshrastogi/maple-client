@@ -50,7 +50,7 @@ const Routes = () => {
       setLoading(false);
       setError(e);
     }
-  }, [GoogleAuth, GAuthError]);
+  }, [GoogleAuth, GAuthError, dispatch]);
 
   if (loading && !error) {
     return (
