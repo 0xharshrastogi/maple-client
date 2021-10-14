@@ -25,11 +25,14 @@ import './Navbar.css';
 const Navbar = ({ logo }) => {
   const [tooltipActice, setTooltipActice] = useToolTip(false);
   const isSignedIn = useSelector((store) => store.isSignedIn);
-  const user = useSelector((store) => ({
-    imageURL: store.user.imageURL,
-    fullname: store.user.firstname,
-    email: store.user.email,
-  }));
+  const user = useSelector(
+    (store) =>
+      store.user && {
+        imageURL: store.user.imageURL,
+        fullname: store.user.firstname,
+        email: store.user.email,
+      }
+  );
 
   // const handleLogOut = useCallback(() => {
   //   const GoogleAuth = gapi.auth2.getAuthInstance();
