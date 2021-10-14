@@ -18,7 +18,7 @@ const ToolTip = ({ children, direction }) => {
 };
 
 ToolTipWrapper.propTypes = {
-  children: PropTypes.object.isRequired,
+  children: PropTypes.array.isRequired,
 };
 
 ToolTip.defaultValue = {

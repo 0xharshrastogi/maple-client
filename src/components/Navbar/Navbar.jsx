@@ -1,10 +1,11 @@
 /* eslint-disable no-undef */
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import brandLogo from '../../assets/img/logo.svg';
 import useToolTip from '../../hooks/useToolTip';
 import Button from '../Button/Button';
+import Portal from '../Portal/Portal';
 import ToolTip, { ToolTipWrapper } from '../ToolTip/ToolTip';
 import './Navbar.css';
 
@@ -23,16 +24,7 @@ import './Navbar.css';
  */
 
 const Navbar = ({ logo }) => {
-  const [tooltipActice, setTooltipActice] = useToolTip(false);
   const isSignedIn = useSelector((store) => store.isSignedIn);
-  const user = useSelector(
-    (store) =>
-      store.user && {
-        imageURL: store.user.imageURL,
-        fullname: store.user.firstname,
-        email: store.user.email,
-      }
-  );
 
   // const handleLogOut = useCallback(() => {
   //   const GoogleAuth = gapi.auth2.getAuthInstance();
@@ -64,31 +56,69 @@ const Navbar = ({ logo }) => {
         </div>
       )}
 
-      {!logo && isSignedIn && (
-        <div className="space-x-3 sm:space-x-10 flex items-center">
-          {/* div for rendering tooltip */}
-          <ToolTipWrapper>
-            <div
-              className="w-11 rounded-full overflow-hidden cursor-pointer user-image-btn"
-              onMouseEnter={() => setTooltipActice(true)}
-              onMouseLeave={() => setTooltipActice(false)}
-            >
-              <img src={user.imageURL} alt={`${user.fullname} Profile Picture`} />
-            </div>
-
-            {tooltipActice && (
-              <ToolTip direction="left">
-                <h3 className="mb-4">Mapple Account</h3>
-                <p className="font-normal text-sm text-gray-400">{user.fullname}</p>
-                <p className="font-normal text-sm text-gray-400">{user.email}</p>
-
-                {/* <Button onClick={handleLogOut}>Logout</Button> */}
-              </ToolTip>
-            )}
-          </ToolTipWrapper>
-        </div>
-      )}
+      {!logo && isSignedIn && <RenderUserJSX />}
     </nav>
+  );
+};
+
+const RenderUserJSX = () => {
+  const [coords, setCoords] = useState({ top: 0, left: 0 });
+  const [portalActive, setPortalActive] = useState(false);
+
+  const [tooltipActice] = useToolTip(false);
+
+  const user = useSelector(
+    ({ user }) =>
+      user && { imageURL: user.imageURL, fullname: user.firstname, email: user.email }
+  );
+
+  const onClickHandler = (e) => {
+    setPortalActive((state) => !state);
+    const rect = e.target.getBoundingClientRect();
+    const left = rect.x - 320 + rect.width;
+    const top = rect.y + rect.height + 16;
+    setCoords({ top, left });
+  };
+
+  return (
+    <div className="space-x-3 sm:space-x-10 flex items-center">
+      {/* div for rendering tooltip */}
+
+      <ToolTipWrapper>
+        <div
+          className="w-11 rounded-full overflow-hidden cursor-pointer user-image-btn"
+          // onMouseEnter={() => setTooltipActice(true)}
+          // onMouseLeave={() => setTooltipActice(false)}
+          onClick={onClickHandler}
+        >
+          <img src={user.imageURL} alt={`${user.fullname} Profile Picture`} />
+        </div>
+
+        {tooltipActice && (
+          <ToolTip direction="left">
+            <h3 className="mb-4">Mapple Account</h3>
+
+            <p className="font-normal text-sm text-gray-400">{user.fullname}</p>
+            <p className="font-normal text-sm text-gray-400">{user.email}</p>
+
+            {/* <Button onClick={handleLogOut}>Logout</Button> */}
+          </ToolTip>
+        )}
+
+        {portalActive && (
+          <Portal>
+            <div
+              style={{ ...coords }}
+              className="absolute w-80 rounded-md shadow-md bg-gray-700 text-white p-4 top-14 left-0"
+            >
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus aperiam
+              omnis maiores nihil nam eius non amet! Eveniet rem laborum esse libero odit
+              architecto, ipsum incidunt totam, beatae placeat magni?
+            </div>
+          </Portal>
+        )}
+      </ToolTipWrapper>
+    </div>
   );
 };
 

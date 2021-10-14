@@ -1,6 +1,6 @@
 export const authActionType = {
-  signIn: '@user/SIGNIN',
-  signOut: '@user/SIGNOUT',
+  signIn: '@auth/SIGNIN',
+  signOut: '@auth/SIGNOUT',
 };
 
 export default function authenticateReducer(state = null, { type }) {
