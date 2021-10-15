@@ -1,0 +1,30 @@
+.spinner-1 {
+  --size: 30px;
+  --color: rgba(220, 38, 38, 1);
+  --time: 750ms;
+  --width: 3px;
+
+  height: var(--size);
+  width: var(--size);
+  border-radius: 50%;
+  border: var(--width) solid;
+  border-color: var(--color) transparent var(--color);
+  animation: spin var(--time) ease-in-out infinite;
+}
+
+@media (min-width: 640px) {
+  .spinner-1 {
+    --size: 40px;
+    --width: 4px;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
+}

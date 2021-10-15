@@ -173,7 +173,6 @@ const Home = () => {
   return (
     <>
       <Navbar />
-
       {/* Landing Section */}
       <LandingSection />
 

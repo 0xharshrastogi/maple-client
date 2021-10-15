@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Spinner from '../components/Spinner/Spinner';
 import { useGoogleAuth } from '../hooks/useGoogleAuth';
 import { authActionType } from '../reducers/authentication';
 import { userActionType } from '../reducers/user';
@@ -54,7 +55,10 @@ const Routes = () => {
 
   if (loading && !error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">Loading App</div>
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <Spinner />
+        <h3 className="text-center text-red-600 font-bold mt-4 text-lg">Loading App</h3>
+      </div>
     );
   }
 
