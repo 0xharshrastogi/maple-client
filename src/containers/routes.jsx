@@ -10,6 +10,8 @@ import Home from './Home/Home';
 import UserLogin from './Login/Login';
 import UserSignup from './Signup/Singup';
 
+console.log(process.env);
+
 const Routes = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
