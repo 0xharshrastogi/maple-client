@@ -28,7 +28,7 @@ const Navbar = ({ logo }) => {
     <nav className="flex items-center justify-between py-3 px-2 navbar md:px-9">
       <h3 className="flex items-center space-x-2">
         <img src={brandLogo} alt="Logo" className="h-12 sm:h-14" />
-        <span className="text-2xl sm:text-4xl text-red-600 font-bold">Mapple</span>
+        <span className="text-2xl sm:text-4xl text-red-600 font-bold">mapple</span>
       </h3>
       {/* will render default untill logo is requiredOnly*/}
 

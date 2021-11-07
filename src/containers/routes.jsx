@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Navbar from '../components/Navbar/Navbar';
 import Spinner from '../components/Spinner/Spinner';
 import { useGoogleAuth } from '../hooks/useGoogleAuth';
 import { authActionType } from '../reducers/authentication';
@@ -71,6 +72,7 @@ const Routes = () => {
 
   return (
     <BrowserRouter>
+      <Navbar />
       <Switch>
         <Route exact path="/">
           <Home />

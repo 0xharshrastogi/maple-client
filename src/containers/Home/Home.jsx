@@ -5,7 +5,6 @@ import girlWithLappyImage from '../../assets/img/GirlWithLappy.svg';
 import Cards from '../../components/Cards/Cards';
 import Footer from '../../components/Footer/Footer';
 import ListItem from '../../components/ListItem/ListItem';
-import Navbar from '../../components/Navbar/Navbar';
 import './landingSection.css';
 
 const Feature = () => {
@@ -172,7 +171,6 @@ const LandingSection = () => {
 const Home = () => {
   return (
     <>
-      <Navbar />
       {/* Landing Section */}
       <LandingSection />
 
