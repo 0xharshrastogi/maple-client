@@ -62,7 +62,7 @@ const RenderUserJSX = () => {
             <RenderUserModel user={user} />
             <br />
             <div className="space-y-5 mt-7">
-              <Button type="secondary" full>
+              <Button to="/manage" type="secondary" onClick={handelModalToogle} full>
                 Manage Your Account
               </Button>
               <Button full onClick={handleLogOut}>

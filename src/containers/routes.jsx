@@ -9,6 +9,7 @@ import { userActionType } from '../reducers/user';
 import extractCurrentUserData from '../utils/extractCurrentUserData';
 import Home from './Home/Home';
 import UserLogin from './Login/Login';
+import ManageAccount from './ManageAccount/Dashboard';
 import UserSignup from './Signup/Singup';
 
 console.log(process.env);
@@ -89,6 +90,8 @@ const Routes = () => {
             <UserLogin />
           </Route>
         )}
+
+        {isSignIn && <Route path="/manage" component={ManageAccount} />}
 
         <Route path="*">404</Route>
       </Switch>

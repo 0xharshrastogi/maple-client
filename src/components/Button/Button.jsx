@@ -34,7 +34,7 @@ const buttonStyles = {
 const Button = ({ children, type, disabled, to, full, ...rest }) => {
   if (to)
     return (
-      <Link to={to} className={buttonStyles[type]}>
+      <Link to={to} className={buttonStyles[type]} {...rest}>
         {children}
       </Link>
     );
