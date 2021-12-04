@@ -4,7 +4,6 @@ import React, { useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import GirlWithBookImage from '../../assets/img/GirlWithBookBook.svg';
 import Button from '../../components/Button/Button';
-import Navbar from '../../components/Navbar/Navbar';
 
 /**
  * Component for User Signup
@@ -28,7 +27,7 @@ const UserSignup = () => {
 
   return (
     <>
-      <Navbar logo />
+      {/* <Navbar logo /> */}
 
       <section className="mx-auto mt-16 sm:flex md:mx-auto md:w-4/5">
         {/* sign up image */}

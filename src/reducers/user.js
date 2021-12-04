@@ -1,7 +1,9 @@
 export const userActionType = {
-  addUser: '@user/ADD',
-  removeUser: '@user/REMOVE',
-  addUserRole: '@user/ADD_ROLE',
+  addUser: "@user/ADD",
+  removeUser: "@user/REMOVE",
+  addUserRole: "@user/ADD_ROLE",
+  addClassrooms: "@user/INSERT_CLASSROOM",
+  pushClassrooms: "@user/PUSH_CLASSROOM",
 };
 
 export default function userReducer(state = null, action) {
@@ -12,6 +14,13 @@ export default function userReducer(state = null, action) {
       return { ...state, ...action.payload };
     case userActionType.removeUser:
       return null;
+    case userActionType.addClassrooms:
+      return { ...state, classrooms: Array.from(action.payload) };
+    case userActionType.pushClassrooms:
+      return {
+        ...state,
+        classrooms: [...state.classrooms, { ...action.payload }],
+      };
   }
   return state;
 }

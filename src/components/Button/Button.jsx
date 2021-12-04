@@ -34,7 +34,11 @@ const buttonStyles = {
 const Button = ({ children, type, disabled, to, full, ...rest }) => {
   if (to)
     return (
-      <Link to={to} className={buttonStyles[type]} {...rest}>
+      <Link
+        to={to}
+        className={`${full && 'inline-block w-full'} ${buttonStyles[type]} text-center`}
+        {...rest}
+      >
         {children}
       </Link>
     );

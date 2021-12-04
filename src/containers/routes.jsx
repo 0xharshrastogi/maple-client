@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Navbar from '../components/Navbar/Navbar';
-import Spinner from '../components/Spinner/Spinner';
-import { useGoogleAuth } from '../hooks/useGoogleAuth';
-import { authActionType } from '../reducers/authentication';
-import { userActionType } from '../reducers/user';
-import extractCurrentUserData from '../utils/extractCurrentUserData';
-import Home from './Home/Home';
-import UserLogin from './Login/Login';
-import ManageAccount from './ManageAccount/Dashboard';
-import UserSignup from './Signup/Singup';
-
-console.log(process.env);
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { getUser, postUser } from "../api/createUser";
+import Navbar from "../components/Navbar/Navbar";
+import Spinner from "../components/Spinner/Spinner";
+import { useGoogleAuth } from "../hooks/useGoogleAuth";
+import { authActionType } from "../reducers/authentication";
+import { userActionType } from "../reducers/user";
+import extractCurrentUserData from "../utils/extractCurrentUserData";
+import Home from "./Home/Home";
+import UserLogin from "./Login/Login";
+import ManageAccount from "./ManageAccount/Dashboard";
+import UserSignup from "./Signup/Singup";
 
 const Routes = () => {
   const [error, setError] = useState(null);
@@ -26,9 +25,17 @@ const Routes = () => {
   );
 
   useEffect(() => {
-    const handleCurrentUser = (GoogleAuth) => {
+    const handleCurrentUser = async (GoogleAuth) => {
       const currentUser = GoogleAuth.currentUser.get();
-      const userData = extractCurrentUserData(currentUser.getBasicProfile());
+      const userId = currentUser.getBasicProfile().getId();
+
+      let [userData, err] = await getUser(userId);
+      if (err && err.name === "NotFound") {
+        const data = extractCurrentUserData(currentUser.getBasicProfile());
+        const [resData, err] = await postUser(data);
+        if (err) console.log(err);
+        else userData = resData;
+      }
 
       dispatch({ type: authActionType.signIn });
       dispatch({ type: userActionType.addUser, payload: userData });
