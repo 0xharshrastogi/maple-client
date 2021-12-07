@@ -38,11 +38,27 @@ const UserJoinedClassrooms = ({ userId }) => {
     );
   if (error) return console.error(error);
 
+  const PortalJSX = (
+    <Model onClose={() => setIsPortalActive(false)}>
+      <CreateClassRoomForm onSubmit={() => setIsPortalActive(false)} userId={userId} />
+    </Model>
+  );
+
   if (classrooms.length === 0)
     return (
-      <p className="mt-10 text-center text-red-600 font-semibold text-2xl bg-red-200 p-4 rounded">
-        No Class Created
-      </p>
+      <>
+        <div className="flex justify-end mt-5">
+          <Button type="primary" onClick={() => setIsPortalActive(true)}>
+            Create
+          </Button>
+        </div>
+
+        {isPortalActive && PortalJSX}
+
+        <p className="mt-10 text-center text-red-600 font-semibold text-2xl bg-red-200 p-4 rounded">
+          No Class Created
+        </p>
+      </>
     );
 
   return (
@@ -53,14 +69,7 @@ const UserJoinedClassrooms = ({ userId }) => {
         </Button>
       </div>
 
-      {isPortalActive && (
-        <Model onClose={() => setIsPortalActive(false)}>
-          <CreateClassRoomForm
-            onSubmit={() => setIsPortalActive(false)}
-            userId={userId}
-          />
-        </Model>
-      )}
+      {isPortalActive && PortalJSX}
 
       <div className="my-5 md:mx-auto lg:max-w-2xl">
         <div className="flex justify-between bg-red-600 px-2 rounded text-lg font-medium">
