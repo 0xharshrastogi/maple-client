@@ -9,7 +9,7 @@ import { userActionType } from "../../reducers/user";
 import parseDate from "../../utils/parseDate";
 import CreateClassRoomForm from "./CreateClassRoomForm";
 
-const UserJoinedClassrooms = ({ userId }) => {
+const UserCreatedClassrooms = ({ userId }) => {
   const classrooms = useSelector((store) => store.user.classrooms);
   const dispatch = useDispatch();
 
@@ -95,8 +95,8 @@ const UserJoinedClassrooms = ({ userId }) => {
   );
 };
 
-UserJoinedClassrooms.propTypes = {
+UserCreatedClassrooms.propTypes = {
   userId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };
 
-export default UserJoinedClassrooms;
+export default UserCreatedClassrooms;

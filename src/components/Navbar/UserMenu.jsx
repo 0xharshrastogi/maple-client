@@ -1,16 +1,16 @@
-import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
-import useMediaQuery from '../../hooks/useMediaQuery';
-import useToolTip from '../../hooks/useToolTip';
-import Button from '../Button/Button';
-import Model from '../Model/Model';
-import Spinner from '../Spinner/Spinner';
-import ToolTip, { ToolTipWrapper } from '../ToolTip/ToolTip';
-import RenderUserModel from './RenderUserModel';
+import React, { useCallback, useState } from "react";
+import { useSelector } from "react-redux";
+import useMediaQuery from "../../hooks/useMediaQuery";
+import useToolTip from "../../hooks/useToolTip";
+import Button from "../Button/Button";
+import Model from "../Model/Model";
+import Spinner from "../Spinner/Spinner";
+import ToolTip, { ToolTipWrapper } from "../ToolTip/ToolTip";
+import RenderUserModel from "./RenderUserModel";
 
 const RenderUserJSX = () => {
   const [portalActive, setPortalActive] = useState(false);
-  const largerDisplay = useMediaQuery('(min-width: 640px)', true, false);
+  const largerDisplay = useMediaQuery("(min-width: 640px)", true, false);
 
   const [tooltipActice, setTooltipActice] = useToolTip(false);
 
@@ -62,7 +62,12 @@ const RenderUserJSX = () => {
             <RenderUserModel user={user} />
             <br />
             <div className="space-y-5 mt-7">
-              <Button to="/manage" type="secondary" onClick={handelModalToogle} full>
+              <Button
+                to="/manage/myclassrooms"
+                type="secondary"
+                onClick={handelModalToogle}
+                full
+              >
                 Manage Your Account
               </Button>
               <Button full onClick={handleLogOut}>

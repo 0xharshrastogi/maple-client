@@ -4,6 +4,7 @@ export const userActionType = {
   addUserRole: "@user/ADD_ROLE",
   addClassrooms: "@user/INSERT_CLASSROOM",
   pushClassrooms: "@user/PUSH_CLASSROOM",
+  insertJoinedClassrooms: "@user/INSERT_JOINED_CLASSROOM",
 };
 
 export default function userReducer(state = null, action) {
@@ -21,6 +22,9 @@ export default function userReducer(state = null, action) {
         ...state,
         classrooms: [...state.classrooms, { ...action.payload }],
       };
+
+    case userActionType.insertJoinedClassrooms:
+      return { ...state, enrolledIn: [...action.payload] };
   }
   return state;
 }

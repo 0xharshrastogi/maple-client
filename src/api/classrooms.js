@@ -27,3 +27,21 @@ export async function createNewClassroom(data, userId) {
     return [undefined, err.response.data];
   }
 }
+
+export async function joinClassRoom(userId, classId) {
+  try {
+    const response = await server.patch(`/v1/user/${userId}/enroll/${classId}`);
+    return [response, undefined];
+  } catch (err) {
+    return [undefined, err.response ? err.response.data : err];
+  }
+}
+
+export async function getClassroomData(classId) {
+  try {
+    const res = await server.get(`v1/class/${classId}`);
+    return [res.data, undefined];
+  } catch (err) {
+    return [undefined, err.response.data];
+  }
+}

@@ -14,7 +14,8 @@ export async function getUser(userId) {
     const response = await server.get(`/v1/user/${userId}`);
     return [response.data, undefined];
   } catch (err) {
-    return [undefined, err.response.data];
+    console.log(err);
+    return [undefined, err.response ? err.response.data : err];
   }
 }
 
