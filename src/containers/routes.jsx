@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { getUser, postUser } from "../api/createUser";
-import Navbar from "../components/Navbar/Navbar";
-import Spinner from "../components/Spinner/Spinner";
+import { Navbar, Spinner } from "../components";
 import { useGoogleAuth } from "../hooks/useGoogleAuth";
 import { authActionType } from "../reducers/authentication";
 import { userActionType } from "../reducers/user";
 import extractCurrentUserData from "../utils/extractCurrentUserData";
+import ClassroomDashboard from "./ClassroomDashboard/ClassroomDashboard";
 import Home from "./Home/Home";
 import UserLogin from "./Login/Login";
 import ManageAccount from "./ManageAccount/Dashboard";
@@ -99,6 +99,7 @@ const Routes = () => {
         )}
 
         {isSignIn && <Route path="/manage" component={ManageAccount} />}
+        {isSignIn && <Route path="/class/:classId" component={ClassroomDashboard} />}
 
         <Route path="*">404</Route>
       </Switch>

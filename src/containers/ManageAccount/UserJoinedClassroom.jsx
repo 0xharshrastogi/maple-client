@@ -48,7 +48,7 @@ const UserJoinedClassrooms = ({ userId }) => {
 
   const PortalJSX = (
     <Model onClose={() => setPortalActive(false)}>
-      <JoinClassroomForm userId={userId} />
+      <JoinClassroomForm userId={userId} onClose={() => setPortalActive(false)} />
     </Model>
   );
 
