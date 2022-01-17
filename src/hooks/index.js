@@ -1,3 +1,4 @@
 import useGoogleAuth from "./useGoogleAuth";
+import useToolTip from "./useToolTip";
 
-export { useGoogleAuth };
+export { useGoogleAuth, useToolTip };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 const useToolTip = (initialState = false, duration = 2000) => {
   const [active, setActive] = useState(() => initialState);
@@ -6,9 +6,7 @@ const useToolTip = (initialState = false, duration = 2000) => {
   useEffect(() => {
     if (!active) return;
 
-    const onTimeout = () => setActive(false);
-
-    const timeoutId = setTimeout(onTimeout, duration);
+    const timeoutId = setTimeout(() => setActive(false), duration);
     return () => clearTimeout(timeoutId);
   }, [duration, active]);
 

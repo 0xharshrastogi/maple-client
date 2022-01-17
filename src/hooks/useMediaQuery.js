@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 const useMediaQuery = (query, whenTrue, whenFalse) => {
   if (window && !window.matchMedia) {
-    console.warn('window.matchMedia: Not Supported');
+    console.warn("window.matchMedia: Not Supported");
     return whenFalse;
   }
 
@@ -13,9 +13,9 @@ const useMediaQuery = (query, whenTrue, whenFalse) => {
   useEffect(() => {
     const handler = () => setMatches(mediaQueryRef.current.matches);
     const target = mediaQueryRef.current;
-    target.addEventListener('change', handler);
+    target.addEventListener("change", handler);
 
-    return () => target.removeEventListener('change', handler);
+    return () => target.removeEventListener("change", handler);
   }, [mediaQueryRef]);
 
   return matches ? whenTrue : whenFalse;
