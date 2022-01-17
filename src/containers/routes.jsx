@@ -4,7 +4,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { getUser, postUser } from "../api/createUser";
 import { Navbar, Spinner } from "../components";
 import { useGoogleAuth } from "../hooks";
-import { authActionType } from "../reducers/authentication";
+import { auth } from "../reducers";
+// import { authActionType as auth } from "../reducers/authentication";
 import { userActionType } from "../reducers/user";
 import extractCurrentUserData from "../utils/extractCurrentUserData";
 import ClassroomDashboard from "./ClassroomDashboard/ClassroomDashboard";
@@ -37,7 +38,7 @@ const Routes = () => {
         else userData = resData;
       }
 
-      dispatch({ type: authActionType.signIn });
+      dispatch({ type: auth.signIn });
       dispatch({ type: userActionType.addUser, payload: userData });
     };
 
@@ -46,11 +47,11 @@ const Routes = () => {
       if (!GoogleAuth) return;
 
       if (GoogleAuth.isSignedIn.get()) handleCurrentUser(GoogleAuth);
-      else dispatch({ type: authActionType.signOut });
+      else dispatch({ type: auth.signOut });
 
       GoogleAuth.isSignedIn.listen((isLogin) => {
         if (!isLogin) {
-          dispatch({ type: authActionType.signOut });
+          dispatch({ type: auth.signOut });
           dispatch({ type: userActionType.removeUser });
           return;
         } else handleCurrentUser(GoogleAuth);
