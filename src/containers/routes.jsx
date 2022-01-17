@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { getUser, postUser } from "../api/createUser";
 import { Navbar, Spinner } from "../components";
-import { useGoogleAuth } from "../hooks/useGoogleAuth";
+import { useGoogleAuth } from "../hooks";
 import { authActionType } from "../reducers/authentication";
 import { userActionType } from "../reducers/user";
 import extractCurrentUserData from "../utils/extractCurrentUserData";
