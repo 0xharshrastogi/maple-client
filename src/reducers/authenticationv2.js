@@ -3,15 +3,17 @@ const action = {
   signOut: "@auth/SIGNOUT",
 };
 
-function reducer(state = null, payload) {
-  switch (payload.type) {
-    case action.signIn:
+function reducer(state = null, actionDispatch) {
+  switch (actionDispatch.type) {
+    case action.signIn: {
       return true;
-    case action.signOut:
+    }
+    case action.signOut: {
       return false;
-    default:
-      return state;
+    }
   }
+
+  return state;
 }
 
 export default { reducer, type: action };
