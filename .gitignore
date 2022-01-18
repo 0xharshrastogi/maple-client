@@ -12,7 +12,7 @@
 # production
 /build
 /test.js
-
+.vscode/
 # misc
 .DS_Store
 .env.local
