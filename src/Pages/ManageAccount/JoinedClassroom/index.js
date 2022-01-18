@@ -1,14 +1,12 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserEnrolledClassroom } from "../../api/classrooms";
-import Button from "../../components/Button/Button";
-import Model from "../../components/Model/Model";
-import Spinner from "../../components/Spinner/Spinner";
-import { userActionType } from "../../reducers/user";
-import JoinClassroomForm from "./JoinClassroomForm";
+import { getUserEnrolledClassroom } from "../../../api/classrooms";
+import { Button, Model, Spinner } from "../../../components";
+import { user } from "../../../reducers";
+import { JoinClassroomForm } from "./form";
 
-const UserJoinedClassrooms = ({ userId }) => {
+export const UserJoinedClassrooms = ({ userId }) => {
   const joinedClassroom = useSelector((state) => state?.user?.enrolledIn);
   const dispatch = useDispatch();
 
@@ -23,8 +21,7 @@ const UserJoinedClassrooms = ({ userId }) => {
       const [data, err] = await getUserEnrolledClassroom(userId);
 
       if (err) setError(err);
-      else
-        dispatch({ type: userActionType.insertJoinedClassrooms, payload: data.results });
+      else dispatch({ type: user.insertJoinedClassrooms, payload: data.results });
 
       setIsLoading(false);
     })();
@@ -94,5 +91,3 @@ const UserJoinedClassrooms = ({ userId }) => {
 UserJoinedClassrooms.propTypes = {
   userId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };
-
-export default UserJoinedClassrooms;

@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { getClassroomData, joinClassRoom } from "../../api/classrooms";
-import Button from "../../components/Button/Button";
-import { userActionType } from "../../reducers/user";
+import { getClassroomData, joinClassRoom } from "../../../api/classrooms";
+import { Button } from "../../../components";
+import { user } from "../../../reducers";
 
-const JoinClassroomForm = ({ userId, onClose: handleClose }) => {
+export const JoinClassroomForm = ({ userId, onClose: handleClose }) => {
   const [classId, setClassId] = useState("");
   const [error, setError] = useState(null);
   const [classData, setClassData] = useState(null);
@@ -38,7 +38,7 @@ const JoinClassroomForm = ({ userId, onClose: handleClose }) => {
               if (error) return console.error(error);
               console.log(typeof handleClose);
               handleClose();
-              dispatch({ type: userActionType.pushJoinedClassroom, payload: classData });
+              dispatch({ type: user.pushJoinedClassroom, payload: classData });
             }}
           >
             Join
@@ -106,5 +106,3 @@ JoinClassroomForm.propTypes = {
   userId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   onClose: PropTypes.func.isRequired,
 };
-
-export default JoinClassroomForm;

@@ -1,14 +1,13 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getUserClass } from "../../../api/classrooms";
 import { Button, Model, Spinner } from "../../../components";
 import { user } from "../../../reducers";
 import { parseDate } from "../../../utils/parseDate";
-import { getUserClass } from "../../api/classrooms";
-// import parseDate from "../../utils/parseDate";
 import CreateClassRoomForm from "./form";
 
-const UserCreatedClassrooms = ({ userId }) => {
+export const UserClassrooms = ({ userId }) => {
   const classrooms = useSelector((store) => store.user.classrooms);
   const dispatch = useDispatch();
 
@@ -98,8 +97,6 @@ const UserCreatedClassrooms = ({ userId }) => {
   );
 };
 
-UserCreatedClassrooms.propTypes = {
+UserClassrooms.propTypes = {
   userId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };
-
-export default UserCreatedClassrooms;

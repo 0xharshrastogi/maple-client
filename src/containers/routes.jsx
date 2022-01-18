@@ -4,13 +4,9 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { getUser, postUser } from "../api/createUser";
 import { Navbar, PrivateRoute, Spinner } from "../components";
 import { useGoogleAuth } from "../hooks";
-import { Home, Login, Signup } from "../Pages";
+import { Home, Login, ManageAccount, Signup } from "../Pages";
 import { auth, user } from "../reducers";
 import { parseUser } from "../utils";
-import ClassroomDashboard from "./ClassroomDashboard/ClassroomDashboard";
-// import Login from "./Login/Login";
-import ManageAccount from "./ManageAccount/Dashboard";
-// import Signup from "./Signup/Singup";
 
 const Client_ID = process.env?.REACT_APP_GAPI_CLIENTID;
 const Client_Secret = process.env?.REACT_APP_CLIENT_SECRET;
@@ -126,7 +122,7 @@ const Routes = () => {
         )}
 
         <PrivateRoute path="/manage" component={ManageAccount} />
-        <PrivateRoute path="/class/:classId" component={ClassroomDashboard} />
+        {/* <PrivateRoute path="/class/:classId" component={ClassroomDashboard} /> */}
 
         <Route path="*">404</Route>
       </Switch>

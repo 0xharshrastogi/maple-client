@@ -12,6 +12,6 @@ export const PrivateRoute = ({ children, ...rest }) => {
 };
 
 PrivateRoute.propTypes = {
-  rest: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired,
+  rest: PropTypes.object,
+  children: PropTypes.node,
 };

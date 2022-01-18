@@ -1,27 +1,31 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
-import UserCreatedClassrooms from "./UserCreatedClassrooms";
-import UserJoinedClassrooms from "./UserJoinedClassroom";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { UserJoinedClassrooms } from "./JoinedClassroom";
+import { UserClassrooms } from "./MyClassrooms";
+import { TabBar } from "./tabBar";
 
-const ManageAccount = () => {
+export const ManageAccount = () => {
   const route = useRouteMatch();
   const userId = useSelector((store) => store?.user?.id);
+  const tabsData = useMemo(() => {
+    return [
+      { path: `/manage/myclassrooms`, name: "My Classroom" },
+      { path: `/manage/joinedclassrooms`, name: "Joined Classroom" },
+    ];
+  }, []);
 
   return (
-    <section>
-      <nav className="mx-10 px-4 flex justify-between border-2 ">
-        <Link to={`${route.path}/myclassrooms`}>My Classrooms</Link>
-        <Link to={`${route.path}/joinedclassrooms`}>Joined Classrooms</Link>
-      </nav>
+    <section className="mt-9">
+      <TabBar tabs={tabsData} />
 
       <section className="mx-10 px-4">
         <Switch>
-          <Route path={`${route.path}/myclassrooms`}>
-            {userId && <UserCreatedClassrooms userId={userId} />}
+          <Route exact path={`${route.path}/myclassrooms`}>
+            {userId && <UserClassrooms userId={userId} />}
           </Route>
 
-          <Route path={`${route.path}/joinedclassrooms`}>
+          <Route exact path={`${route.path}/joinedclassrooms`}>
             {userId && <UserJoinedClassrooms userId={userId} />}
           </Route>
         </Switch>
@@ -29,5 +33,3 @@ const ManageAccount = () => {
     </section>
   );
 };
-
-export default ManageAccount;
