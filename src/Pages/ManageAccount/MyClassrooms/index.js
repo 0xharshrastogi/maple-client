@@ -1,35 +1,12 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserClass } from "../../../api/classrooms";
 import { Button, Model, Spinner } from "../../../components";
+import { useAsync } from "../../../hooks";
 import { user } from "../../../reducers";
-import { parseDate } from "../../../utils/parseDate";
+import { parseDate } from "../../../utils";
 import Form from "./form";
-
-const useAsync = (callback, deps) => {
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState();
-
-  useEffect(() => {
-    try {
-      (async () => {
-        setIsLoading(true);
-        const data = await callback();
-        setData(data);
-      })();
-    } catch (err) {
-      console.count("Error Count");
-      setError(err);
-    } finally {
-      setIsLoading(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps);
-
-  return { error, loading: isLoading, data };
-};
 
 export const UserClassrooms = ({ userId }) => {
   const [isPortalActive, setIsPortalActive] = useState(false);

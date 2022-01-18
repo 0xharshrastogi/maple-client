@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserEnrolledClassroom } from "../../../api/classrooms";
 import { Button, Model, Spinner } from "../../../components";
+import { useAsync } from "../../../hooks";
 import { user } from "../../../reducers";
 import { JoinClassroomForm } from "./form";
 
@@ -10,24 +11,18 @@ export const UserJoinedClassrooms = ({ userId }) => {
   const joinedClassroom = useSelector((state) => state?.user?.enrolledIn);
   const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState();
   const [portalActive, setPortalActive] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
+  const { loading, error } = useAsync(async () => {
+    const [data, err] = await getUserEnrolledClassroom(userId);
 
-      const [data, err] = await getUserEnrolledClassroom(userId);
+    if (err) return console.error(err);
+    console.log(data);
 
-      if (err) setError(err);
-      else dispatch({ type: user.insertJoinedClassrooms, payload: data.results });
+    dispatch({ type: user.insertJoinedClassrooms, payload: data.results });
+  }, [userId]);
 
-      setIsLoading(false);
-    })();
-  }, [userId, dispatch]);
-
-  if (isLoading)
+  if (loading)
     return (
       <div className="flex justify-center items-center flex-col p-5 mt-5">
         <Spinner />
@@ -49,7 +44,7 @@ export const UserJoinedClassrooms = ({ userId }) => {
     </Model>
   );
 
-  if (joinedClassroom.length === 0)
+  if (Array.isArray(joinedClassroom) && joinedClassroom.length === 0)
     return (
       <>
         {ButtonJSX}
