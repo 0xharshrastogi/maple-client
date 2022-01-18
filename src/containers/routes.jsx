@@ -4,13 +4,13 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { getUser, postUser } from "../api/createUser";
 import { Navbar, PrivateRoute, Spinner } from "../components";
 import { useGoogleAuth } from "../hooks";
-import { Home } from "../Pages";
+import { Home, Login, Signup } from "../Pages";
 import { auth, user } from "../reducers";
-import extractCurrentUserData from "../utils/extractCurrentUserData";
+import { parseUser } from "../utils";
 import ClassroomDashboard from "./ClassroomDashboard/ClassroomDashboard";
-import UserLogin from "./Login/Login";
+// import Login from "./Login/Login";
 import ManageAccount from "./ManageAccount/Dashboard";
-import UserSignup from "./Signup/Singup";
+// import Signup from "./Signup/Singup";
 
 const Client_ID = process.env?.REACT_APP_GAPI_CLIENTID;
 const Client_Secret = process.env?.REACT_APP_CLIENT_SECRET;
@@ -24,7 +24,7 @@ const handleCurrentUser = async (GoogleAuth) => {
   if (!err) return userData;
 
   if (err.name === "NotFound") {
-    const data = extractCurrentUserData(currentUser.getBasicProfile());
+    const data = parseUser(currentUser.getBasicProfile());
     const [resData, err] = await postUser(data);
 
     if (!err) return resData;
@@ -115,13 +115,13 @@ const Routes = () => {
 
         {!isSignIn && (
           <Route exact path="/signup">
-            <UserSignup />
+            <Signup />
           </Route>
         )}
 
         {!isSignIn && (
           <Route path="/login">
-            <UserLogin />
+            <Login />
           </Route>
         )}
 

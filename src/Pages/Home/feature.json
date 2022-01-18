@@ -1,0 +1,30 @@
+[
+  {
+    "title": "This is very extraordinary feature that makes learing activities more effiecient",
+    "image": {
+      "url": "https://images.unsplash.com/photo-1518349619113-03114f06ac3a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+      "name": "feature image"
+    },
+    "features": [
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, rem!",
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatum!",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, quos?",
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatum!",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, rem!"
+    ]
+  },
+  {
+    "title": "This is very extraordinary feature that makes learing activities more effiecient",
+    "image": {
+      "url": "https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=870&q=80",
+      "name": "feature image"
+    },
+    "features": [
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, rem!",
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatum!",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, quos?",
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatum!",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, rem!"
+    ]
+  }
+]

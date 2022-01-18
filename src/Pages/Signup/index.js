@@ -1,16 +1,16 @@
-import { faAmericanSignLanguageInterpreting } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useCallback } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import GirlWithBookImage from '../../assets/img/GirlWithBookBook.svg';
-import Button from '../../components/Button/Button';
+import { faAmericanSignLanguageInterpreting } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useCallback } from "react";
+import { Link, useHistory } from "react-router-dom";
+import GirlWithBookImage from "../../assets/img/GirlWithBookBook.svg";
+import { Button } from "../../components";
 
 /**
- * Component for User Login
+ * Component for User Signup
  * @returns {JSX.Element} Component JSX
  */
 
-const UserLogin = () => {
+export const Signup = () => {
   // const isSignedIn = useSelector((store) => store.isSignedIn);
   const history = useHistory();
 
@@ -19,8 +19,7 @@ const UserLogin = () => {
       // eslint-disable-next-line no-undef
       const GoogleAuth = gapi.auth2.getAuthInstance();
       await GoogleAuth.signIn();
-
-      history.push('/');
+      history.push("/");
     } catch (e) {
       console.error(e);
     }
@@ -44,12 +43,12 @@ const UserLogin = () => {
         <section className="mx-8 mt-10 md:flex md:flex-col md:justify-center md:ml-auto">
           <div className="">
             <h1 className="font-bold text-5xl text-red-600 md:text-6xl lg:text-8xl">
-              Welcome
+              Get Started
             </h1>
             <span className="mt-2 inline-block text-gray-400 font-medium">
-              New Member?{' '}
-              <Link className="text-red-600 underline" to="/signup">
-                Sign Up
+              Already A Member{" "}
+              <Link className="text-red-600 underline" to="/login">
+                Log In
               </Link>
             </span>
           </div>
@@ -66,5 +65,3 @@ const UserLogin = () => {
     </>
   );
 };
-
-export default UserLogin;

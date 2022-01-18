@@ -1,4 +1,4 @@
-export default function (currentUser) {
+export function parseUser(currentUser) {
   return {
     firstname: currentUser.getName(),
     imageURL: currentUser.getImageUrl(),

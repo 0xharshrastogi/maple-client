@@ -1,13 +1,12 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Button, Model, Spinner } from "../../../components";
+import { user } from "../../../reducers";
+import { parseDate } from "../../../utils/parseDate";
 import { getUserClass } from "../../api/classrooms";
-import Button from "../../components/Button/Button";
-import Model from "../../components/Model/Model";
-import Spinner from "../../components/Spinner/Spinner";
-import { userActionType } from "../../reducers/user";
-import { parseDate } from "../../utils";
-import CreateClassRoomForm from "./CreateClassRoomForm";
+// import parseDate from "../../utils/parseDate";
+import CreateClassRoomForm from "./form";
 
 const UserCreatedClassrooms = ({ userId }) => {
   const classrooms = useSelector((store) => store.user.classrooms);
@@ -18,15 +17,19 @@ const UserCreatedClassrooms = ({ userId }) => {
   const [isPortalActive, setIsPortalActive] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
+    try {
+      (async () => {
+        setIsLoading(true);
 
-      const [data, err] = await getUserClass(userId);
-      if (err) setError(err);
-      else dispatch({ type: userActionType.addClassrooms, payload: data.result });
-
+        const [data, err] = await getUserClass(userId);
+        if (err) throw err;
+        else dispatch({ type: user.addClassrooms, payload: data.result });
+      })();
+    } catch (err) {
+      setError(err);
+    } finally {
       setIsLoading(false);
-    })();
+    }
   }, [userId, dispatch]);
 
   if (isLoading)
