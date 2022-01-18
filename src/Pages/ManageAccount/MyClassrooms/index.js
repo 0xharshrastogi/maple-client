@@ -5,44 +5,58 @@ import { getUserClass } from "../../../api/classrooms";
 import { Button, Model, Spinner } from "../../../components";
 import { user } from "../../../reducers";
 import { parseDate } from "../../../utils/parseDate";
-import CreateClassRoomForm from "./form";
+import Form from "./form";
 
-export const UserClassrooms = ({ userId }) => {
-  const classrooms = useSelector((store) => store.user.classrooms);
-  const dispatch = useDispatch();
-
+const useAsync = (callback, deps) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isPortalActive, setIsPortalActive] = useState(false);
+  const [data, setData] = useState();
 
   useEffect(() => {
     try {
       (async () => {
         setIsLoading(true);
-
-        const [data, err] = await getUserClass(userId);
-        if (err) throw err;
-        else dispatch({ type: user.addClassrooms, payload: data.result });
+        const data = await callback();
+        setData(data);
       })();
     } catch (err) {
+      console.count("Error Count");
       setError(err);
     } finally {
       setIsLoading(false);
     }
-  }, [userId, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 
-  if (isLoading)
+  return { error, loading: isLoading, data };
+};
+
+export const UserClassrooms = ({ userId }) => {
+  const [isPortalActive, setIsPortalActive] = useState(false);
+
+  const classrooms = useSelector((store) => store.user.classrooms);
+  const dispatch = useDispatch();
+
+  const { error, loading } = useAsync(async () => {
+    const [data, err] = await getUserClass(userId);
+    if (err) console.error(err);
+
+    dispatch({ type: user.addClassrooms, payload: data.result });
+  }, [userId]);
+
+  if (loading)
     return (
       <div className="flex justify-center items-center flex-col p-5 mt-5">
         <Spinner />
         <p className="mt-3 text-gray-700">Fetching User Classes</p>
       </div>
     );
+
   if (error) return console.error(error);
 
   const PortalJSX = (
     <Model onClose={() => setIsPortalActive(false)}>
-      <CreateClassRoomForm onSubmit={() => setIsPortalActive(false)} userId={userId} />
+      <Form onSubmit={() => setIsPortalActive(false)} userId={userId} />
     </Model>
   );
 
