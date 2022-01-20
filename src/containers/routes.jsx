@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { setUser } from "../action/user";
 import { getUser, postUser } from "../api/createUser";
 import { Navbar, PrivateRoute, Spinner } from "../components";
 import { useGoogleAuth } from "../hooks";
@@ -41,6 +42,12 @@ const useInitialiseApp = () => {
       if (GAuthError) throw GAuthError;
       if (!GoogleAuth) return;
 
+      dispatch(
+        setUser(GoogleAuth, (err) => {
+          console.error(err);
+        })
+      );
+
       if (GoogleAuth.isSignedIn.get()) {
         (async () => {
           const userData = await handleCurrentUser(GoogleAuth);
@@ -77,6 +84,7 @@ const useInitialiseApp = () => {
 
 const Routes = () => {
   const isSignIn = useSelector((state) => state?.isSignedIn);
+
   const { loading, error } = useInitialiseApp();
 
   if (loading) {

@@ -1,4 +1,4 @@
-export const userActionType = {
+const userAction = {
   addUser: "@user/ADD",
   removeUser: "@user/REMOVE",
   addUserRole: "@user/ADD_ROLE",
@@ -8,22 +8,24 @@ export const userActionType = {
   pushJoinedClassroom: "@user/PUSH_JOINED_CLASSROOM",
 };
 
-export default function userReducer(state = null, action) {
+function reducer(state = null, action) {
   switch (action.type) {
-    case userActionType.addUser:
+    case userAction.addUser:
       return { ...action.payload };
-    case userActionType.addUserRole:
+    case userAction.addUserRole:
       return { ...state, ...action.payload };
-    case userActionType.removeUser:
+    case userAction.removeUser:
       return null;
-    case userActionType.addClassrooms:
+    case userAction.addClassrooms:
       return { ...state, classrooms: Array.from(action.payload) };
-    case userActionType.pushClassrooms:
+    case userAction.pushClassrooms:
       return { ...state, classrooms: [...state.classrooms, { ...action.payload }] };
-    case userActionType.pushJoinedClassroom:
+    case userAction.pushJoinedClassroom:
       return { ...state, enrolledIn: [...state.enrolledIn, { ...action.payload }] };
-    case userActionType.insertJoinedClassrooms:
-      return { ...state, enrolledIn: [...action.payload] };
+    case userAction.insertJoinedClassrooms:
+      return { ...state, enrolledIn: { ...action.payload } };
   }
   return state;
 }
+
+export default { reducer, type: userAction };

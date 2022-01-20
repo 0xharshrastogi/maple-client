@@ -1,15 +1,19 @@
-export const authActionType = {
-  signIn: '@auth/SIGNIN',
-  signOut: '@auth/SIGNOUT',
+const action = {
+  signIn: "@auth/SIGNIN",
+  signOut: "@auth/SIGNOUT",
 };
 
-export default function authenticateReducer(state = null, { type }) {
-  switch (type) {
-    case authActionType.signIn:
+function reducer(state = null, actionDispatch) {
+  switch (actionDispatch.type) {
+    case action.signIn: {
       return true;
-    case authActionType.signOut:
+    }
+    case action.signOut: {
       return false;
-    default:
-      return state;
+    }
   }
+
+  return state;
 }
+
+export default { reducer, type: action };
