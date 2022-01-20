@@ -8,9 +8,10 @@ import { user } from "../../../reducers";
 import { JoinClassroomForm } from "./form";
 
 export const UserJoinedClassrooms = ({ userId }) => {
-  const { count: classCount, results: joinedClassroom } = useSelector(
-    (state) => state?.user?.enrolledIn
-  );
+  const { count: classCount, results: joinedClassroom } = useSelector((state) => {
+    return state?.user?.enrolledIn;
+  });
+
   const dispatch = useDispatch();
 
   const [portalActive, setPortalActive] = useState(false);
