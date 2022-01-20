@@ -23,7 +23,7 @@ function reducer(state = null, action) {
     case userAction.pushJoinedClassroom:
       return { ...state, enrolledIn: [...state.enrolledIn, { ...action.payload }] };
     case userAction.insertJoinedClassrooms:
-      return { ...state, enrolledIn: [...action.payload] };
+      return { ...state, enrolledIn: { ...action.payload } };
   }
   return state;
 }

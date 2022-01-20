@@ -8,7 +8,9 @@ import { user } from "../../../reducers";
 import { JoinClassroomForm } from "./form";
 
 export const UserJoinedClassrooms = ({ userId }) => {
-  const joinedClassroom = useSelector((state) => state?.user?.enrolledIn);
+  const { count: classCount, results: joinedClassroom } = useSelector(
+    (state) => state?.user?.enrolledIn
+  );
   const dispatch = useDispatch();
 
   const [portalActive, setPortalActive] = useState(false);
@@ -17,10 +19,11 @@ export const UserJoinedClassrooms = ({ userId }) => {
     const [data, err] = await getUserEnrolledClassroom(userId);
 
     if (err) return console.error(err);
-    console.log(data);
 
-    dispatch({ type: user.insertJoinedClassrooms, payload: data.results });
+    dispatch({ type: user.insertJoinedClassrooms, payload: data });
   }, [userId]);
+
+  // if (dispatch) return null;
 
   if (loading)
     return (
@@ -44,7 +47,7 @@ export const UserJoinedClassrooms = ({ userId }) => {
     </Model>
   );
 
-  if (Array.isArray(joinedClassroom) && joinedClassroom.length === 0)
+  if (Array.isArray(joinedClassroom) && classCount === 0)
     return (
       <>
         {ButtonJSX}
