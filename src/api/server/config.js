@@ -19,7 +19,10 @@ client.interceptors.response.use(
     return response.data;
   },
   (err) => {
-    return Promise.reject(err.response.data);
+    console.log(err);
+    if ("data" in err.response) return Promise.reject(err.response.data);
+
+    return Promise.reject(err.response);
   }
 );
 

@@ -8,8 +8,8 @@ const Tab = ({ children, to }) => {
     <Link
       to={to}
       className={`${
-        isActive ? "text-red-600 font-bold" : "text-gray-400 hover:text-red-500"
-      } text-lg font-medium transition-all duration-100 ease-in`}
+        isActive ? "bg-white bg-opacity-10" : ""
+      } p-2 font-medium text-sm md:text-base uppercase transition-all duration-100 ease-in rounded-sm hover:bg-white hover:bg-opacity-10`}
     >
       {children}
     </Link>
@@ -23,7 +23,7 @@ Tab.propTypes = {
 
 export const TabBar = ({ tabs }) => {
   return (
-    <nav className="mx-10 px-4 py-4 flex justify-around bg-gray-50 border-2 border-gray-100">
+    <nav className="mx-3 mt-10 px-4 py-4 flex justify-between sm:justify-around bg-indigo-800 text-white">
       {tabs.map(({ path, name }) => (
         <Tab to={path} key={path}>
           {name}
@@ -34,10 +34,5 @@ export const TabBar = ({ tabs }) => {
 };
 
 TabBar.propTypes = {
-  tabs: PropTypes.arrayOf(
-    PropTypes.objectOf({
-      path: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  ),
+  tabs: PropTypes.array.isRequired,
 };

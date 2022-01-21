@@ -1,93 +1,62 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserClass } from "../../../api/classrooms";
-import { Button, Model, Spinner } from "../../../components";
-import { useAsync } from "../../../hooks";
-import { user } from "../../../reducers";
-import { parseDate } from "../../../utils";
-import Form from "./form";
+import React, { useEffect, useReducer } from "react";
+import { useDispatch } from "react-redux";
+import { fetchUserClassroom } from "../../../action/classroom";
+import { Spinner } from "../../../components";
+import { Classrooms } from "./Classrooms";
 
-export const UserClassrooms = ({ userId }) => {
-  const [isPortalActive, setIsPortalActive] = useState(false);
+const INITIAL_STATE = {
+  data: [],
+  error: null,
+  loading: true,
+};
 
-  const classrooms = useSelector(({ user }) => user.data.classrooms);
+function classroomReducer(state = INITIAL_STATE, action) {
+  switch (action.type) {
+    case "CLASSROOM_FETCHING_FAILURE":
+      return Object.assign({}, { error: action.payload, loading: false });
+
+    case "CLASSROOM_FETCHING_SUCCESS":
+      return Object.assign({}, { data: action.payload, loading: false });
+  }
+
+  return state;
+}
+
+const Loading = () => (
+  <div className="flex justify-center items-center flex-col p-5 mt-5">
+    <Spinner />
+    <p className="mt-3 text-gray-700">Fetching User Classes</p>
+  </div>
+);
+
+export const UserClassrooms = ({ userID }) => {
   const dispatch = useDispatch();
 
-  const { error, loading } = useAsync(async () => {
-    const [data, err] = await getUserClass(userId);
-    if (err) console.error(err);
+  const [store, localDispatch] = useReducer(classroomReducer, { ...INITIAL_STATE });
 
-    dispatch({ type: user.addClassrooms, payload: data.result });
-  }, [userId]);
+  useEffect(() => {
+    const onSuccess = (data) =>
+      localDispatch({ type: "CLASSROOM_FETCHING_SUCCESS", payload: data });
 
-  if (loading)
-    return (
-      <div className="flex justify-center items-center flex-col p-5 mt-5">
-        <Spinner />
-        <p className="mt-3 text-gray-700">Fetching User Classes</p>
-      </div>
-    );
+    const onError = (err) =>
+      localDispatch({ type: "CLASSROOM_FETCHING_FAILURE", payload: err });
 
-  if (error) return console.error(error);
+    dispatch(fetchUserClassroom({ userID, onSuccess, onError }));
+  }, [userID, dispatch]);
 
-  const PortalJSX = (
-    <Model onClose={() => setIsPortalActive(false)}>
-      <Form onSubmit={() => setIsPortalActive(false)} userId={userId} />
-    </Model>
-  );
+  const { error, loading, data: classrooms } = store;
 
-  if (classrooms.length === 0)
-    return (
-      <>
-        <div className="flex justify-end mt-5">
-          <Button type="primary" onClick={() => setIsPortalActive(true)}>
-            Create
-          </Button>
-        </div>
+  if (loading) return <Loading />;
 
-        {isPortalActive && PortalJSX}
+  if (error) {
+    console.error(error);
+    return null;
+  }
 
-        <p className="mt-10 text-center text-red-600 font-semibold text-2xl bg-red-200 p-4 rounded">
-          No Class Created
-        </p>
-      </>
-    );
-
-  return (
-    <>
-      <div className="flex justify-end mt-5">
-        <Button type="primary" onClick={() => setIsPortalActive(true)}>
-          Create
-        </Button>
-      </div>
-
-      {isPortalActive && PortalJSX}
-
-      <div className="my-5 md:mx-auto lg:max-w-2xl">
-        <div className="flex justify-between bg-red-600 px-2 rounded text-lg font-medium">
-          <span className="text-white">Classroom Name</span>
-          <span className="text-white">Created At</span>
-        </div>
-
-        <div className="space-y-3 mt-2">
-          {classrooms.map((classroom) => (
-            <div
-              key={classroom.id}
-              className="flex px-2 justify-between hover:bg-red-50 cursor-pointer rounded py-1 border-b-2"
-            >
-              <span className="text-gray-800">{classroom.name}</span>
-              <span className="text-xs text-gray-400">
-                {parseDate(new Date(classroom.createdAt))}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
-  );
+  return <Classrooms classrooms={classrooms} userID={userID} />;
 };
 
 UserClassrooms.propTypes = {
-  userId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  userID: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };
