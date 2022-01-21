@@ -7,7 +7,10 @@ import { TabBar } from "./tabBar";
 
 export const ManageAccount = () => {
   const route = useRouteMatch();
-  const userId = useSelector((store) => store?.user?.id);
+  const userId = useSelector((store) => {
+    return store.user.data.id;
+  });
+
   const tabsData = useMemo(() => {
     return [
       { path: `/manage/myclassrooms`, name: "My Classroom" },
@@ -22,11 +25,11 @@ export const ManageAccount = () => {
       <section className="mx-10 px-4">
         <Switch>
           <Route exact path={`${route.path}/myclassrooms`}>
-            {userId && <UserClassrooms userId={userId} />}
+            <UserClassrooms userId={userId} />
           </Route>
 
           <Route exact path={`${route.path}/joinedclassrooms`}>
-            {userId && <UserJoinedClassrooms userId={userId} />}
+            <UserJoinedClassrooms userId={userId} />
           </Route>
         </Switch>
       </section>

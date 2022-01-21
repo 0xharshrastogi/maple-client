@@ -1,5 +1,5 @@
-import { getUser } from "./user";
+import { getUser, patchUser, postUser } from "./user";
 
-const User = { getUser };
+const User = { getUser, postUser, patchUser };
 
 export default { User };

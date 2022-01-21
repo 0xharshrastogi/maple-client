@@ -11,7 +11,7 @@ import Form from "./form";
 export const UserClassrooms = ({ userId }) => {
   const [isPortalActive, setIsPortalActive] = useState(false);
 
-  const classrooms = useSelector((store) => store.user.classrooms);
+  const classrooms = useSelector(({ user }) => user.data.classrooms);
   const dispatch = useDispatch();
 
   const { error, loading } = useAsync(async () => {

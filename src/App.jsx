@@ -1,12 +1,13 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { applyMiddleware, compose, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import Routes from './containers/routes';
-import reducers from './reducers';
+import React from "react";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom/cjs/react-router-dom.min";
+import { applyMiddleware, compose, createStore } from "redux";
+import thunk from "redux-thunk";
+import Routes from "./containers/routes";
+import reducers from "./reducers";
 
 const composeEnhancer =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
@@ -18,7 +19,9 @@ function App() {
   return (
     <>
       <Provider store={store}>
-        <Routes />
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
       </Provider>
     </>
   );

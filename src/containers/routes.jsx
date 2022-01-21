@@ -1,85 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { setUser } from "../action/user";
-import { getUser, postUser } from "../api/createUser";
+import { Route, Switch } from "react-router-dom";
+import { removeUser, setUser } from "../action/user";
 import { Navbar, PrivateRoute, Spinner } from "../components";
 import { useGoogleAuth } from "../hooks";
 import { Home, Login, ManageAccount, Signup } from "../Pages";
 import { auth, user } from "../reducers";
-import { parseUser } from "../utils";
 
 const Client_ID = process.env?.REACT_APP_GAPI_CLIENTID;
 const Client_Secret = process.env?.REACT_APP_CLIENT_SECRET;
 
-const handleCurrentUser = async (GoogleAuth) => {
-  const currentUser = GoogleAuth.currentUser.get();
-  const userId = currentUser.getBasicProfile().getId();
-
-  let [userData, err] = await getUser(userId);
-
-  if (!err) return userData;
-
-  if (err.name === "NotFound") {
-    const data = parseUser(currentUser.getBasicProfile());
-    const [resData, err] = await postUser(data);
-
-    if (!err) return resData;
-
-    console.error(err);
-  }
-};
-
 const useInitialiseApp = () => {
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-
   const { GoogleAuth, error: GAuthError } = useGoogleAuth(Client_ID, Client_Secret);
+  const { data, error, loading } = useSelector((state) => state.user);
 
   useEffect(() => {
-    try {
-      if (GAuthError) throw GAuthError;
-      if (!GoogleAuth) return;
+    if (GAuthError) throw GAuthError;
+    if (!GoogleAuth) return;
 
-      dispatch(
-        setUser(GoogleAuth, (err) => {
-          console.error(err);
-        })
-      );
+    const isSignedIn = GoogleAuth.isSignedIn.get();
 
-      if (GoogleAuth.isSignedIn.get()) {
-        (async () => {
-          const userData = await handleCurrentUser(GoogleAuth);
-          dispatch({ type: auth.signIn });
-          dispatch({ type: user.addUser, payload: userData });
-        })();
-      } else dispatch({ type: auth.signOut });
-    } catch (e) {
-      console.error(e);
-      setError(e);
-    } finally {
-      setLoading(false);
+    if (!isSignedIn) {
+      dispatch({ type: auth.signOut });
+      dispatch({ type: user.LOADING_USER_STOP });
+      return;
     }
+
+    dispatch(setUser(GoogleAuth));
   }, [GoogleAuth, GAuthError, dispatch]);
 
   useEffect(() => {
-    GoogleAuth?.isSignedIn.listen((isLogin) => {
-      if (!isLogin) {
-        dispatch({ type: auth.signOut });
-        dispatch({ type: user.removeUser });
-        return;
-      } else {
-        (async () => {
-          const userData = await handleCurrentUser(GoogleAuth);
-          dispatch({ type: auth.signIn });
-          dispatch({ type: user.addUser, payload: userData });
-        })();
-      }
-    });
+    const onLoginChange = (isLogin) => {
+      isLogin ? dispatch(setUser(GoogleAuth)) : dispatch(removeUser());
+    };
+
+    GoogleAuth?.isSignedIn.listen(onLoginChange);
   }, [GoogleAuth, GAuthError, dispatch]);
 
-  return { error, loading };
+  return { loading, error, data };
 };
 
 const Routes = () => {
@@ -98,43 +57,22 @@ const Routes = () => {
 
   if (error) {
     console.error(error);
-    return <div>There is Error</div>;
+    return <div>There is Error: {error.message}</div>;
   }
 
   return (
-    <BrowserRouter>
+    <>
       <Navbar />
       <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-
-        <PrivateRoute path="/he">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab repellat eius quas
-            saepe ratione sint veritatis perferendis cupiditate odit, quae, rem quos
-            ducimus. Incidunt a nisi optio voluptatem illo libero?
-          </p>
-        </PrivateRoute>
-
-        {!isSignIn && (
-          <Route exact path="/signup">
-            <Signup />
-          </Route>
-        )}
-
-        {!isSignIn && (
-          <Route path="/login">
-            <Login />
-          </Route>
-        )}
+        <Route exact path="/" component={Home} />
+        {!isSignIn && <Route exact path="/signup" component={Signup} />}
+        {!isSignIn && <Route path="/login" component={Login} />}
 
         <PrivateRoute path="/manage" component={ManageAccount} />
-        {/* <PrivateRoute path="/class/:classId" component={ClassroomDashboard} /> */}
 
         <Route path="*">404</Route>
       </Switch>
-    </BrowserRouter>
+    </>
   );
 };
 
