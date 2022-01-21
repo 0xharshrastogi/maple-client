@@ -2,14 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "TTNorms";
+  src: url("./assets/fonts/TTNorm/TTNorms-ExtraLight.woff") format("woff");
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "TTNorms";
+  src: url("./assets/fonts/TTNorm/TTNorms-Light.woff") format("woff");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "TTNorms";
+  src: url("./assets/fonts/TTNorm/TTNorms-Regular.woff");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: TTNorms;
+  src: url("./assets/fonts/TTNorm/TTNorms-Medium.woff") format("woff");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: TTNorms;
+  src: url("./assets/fonts/TTNorm/TTNorms-Bold.woff") format("woff");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: TTNorms;
+  src: url("./assets/fonts/TTNorm/TTNorms-ExtraBold.woff") format("woff");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: TTNorms;
+  src: url("./assets/fonts/TTNorm/TTNorms-Black.woff") format("woff");
+  font-weight: 800;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Ubuntu', sans-serif;
+  font-family: -apple-system, "TTNorms";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.center {
+/* .center {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,4 +70,4 @@ body {
   background-color: rgba(220, 38, 38);
   border-radius: 10rem;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-}
+} */

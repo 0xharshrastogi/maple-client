@@ -1,4 +1,5 @@
 import Button from "./Button/Button";
+import { Button as Button2 } from "./ButtonModern";
 import Cards from "./Cards/Cards";
 import Footer from "./Footer/Footer";
 import ListItem from "./ListItem/ListItem";
@@ -10,6 +11,7 @@ import Spinner from "./Spinner/Spinner";
 import ToolTip from "./ToolTip/ToolTip";
 
 export {
+  Button2,
   Button,
   Cards,
   Footer,

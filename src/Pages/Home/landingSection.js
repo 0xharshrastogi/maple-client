@@ -6,7 +6,7 @@ export const LandingSection = () => {
     <section className="mx-8 sm:w-4/5 sm:mx-auto mt-8 space-y-7 sm:space-y-9 landing sm:grid md:mt-20">
       <h1 className="text-3xl md:text-6xl font-semibold text-center sm:text-left text-gray-400 sm:flex sm:flex-col sm:justify-center">
         <span className="text-gray-600">Schools</span> Are Closed, Learning Is{" "}
-        <span className="text-red-600">Open</span>
+        <span className="text-uiBlue font-TTNorms">Open</span>
       </h1>
 
       {/* image */}
