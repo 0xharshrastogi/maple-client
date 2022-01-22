@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserEnrolledClassroom } from "../../../api/classrooms";
 import { Button, Model, Spinner } from "../../../components";
@@ -7,9 +7,27 @@ import { useAsync } from "../../../hooks";
 import { user } from "../../../reducers";
 import { JoinClassroomForm } from "./form";
 
+function classroomReducer(state, action) {
+  switch (action.type) {
+    case "CLASSROOM_FETCHING_FAILURE":
+      return Object.assign({}, { error: action.payload, loading: false });
+
+    case "CLASSROOM_FETCHING_SUCCESS":
+      return Object.assign({}, { data: action.payload, loading: false });
+  }
+
+  return state;
+}
+
 export const UserJoinedClassrooms = ({ userId }) => {
   const { count: classCount, results: joinedClassroom } = useSelector((state) => {
     return state?.user?.enrolledIn;
+  });
+
+  const {} = useReducer(classroomReducer, {
+    data: [],
+    error: null,
+    loading: true,
   });
 
   const dispatch = useDispatch();

@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Ubuntu', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Ubuntu", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -15,7 +15,7 @@ body {
   justify-content: center;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   background-color: wheat;
   width: 10px;
 }
@@ -28,4 +28,4 @@ body {
   background-color: rgba(220, 38, 38);
   border-radius: 10rem;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
-}
+} */

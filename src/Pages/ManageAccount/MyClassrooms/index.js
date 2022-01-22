@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useReducer } from "react";
 import { useDispatch } from "react-redux";
-import { fetchUserClassroom } from "../../../action/classroom";
+import { fetchUserClassroom } from "../../../action";
 import { Spinner } from "../../../components";
 import { Classrooms } from "./Classrooms";
 
@@ -11,7 +11,7 @@ const INITIAL_STATE = {
   loading: true,
 };
 
-function classroomReducer(state = INITIAL_STATE, action) {
+function classroomReducer(state, action) {
   switch (action.type) {
     case "CLASSROOM_FETCHING_FAILURE":
       return Object.assign({}, { error: action.payload, loading: false });
