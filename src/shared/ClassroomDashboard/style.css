@@ -1,0 +1,16 @@
+.scroll_tabbar {
+  padding-left: 3rem;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+@media (min-width: 21.25rem) {
+  .scroll_tabbar {
+    padding-left: 0;
+    overflow-x: hidden;
+  }
+}
+
+.textoverflow-ellipsis {
+  text-overflow: ellipsis;
+}

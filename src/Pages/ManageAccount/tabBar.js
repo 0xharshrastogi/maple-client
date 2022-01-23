@@ -23,7 +23,7 @@ Tab.propTypes = {
 
 export const TabBar = ({ tabs }) => {
   return (
-    <nav className="mx-3 mt-10 px-4 py-4 flex justify-between sm:justify-around bg-indigo-800 text-white">
+    <nav className="mx-3 mt-10 px-4 py-4 flex justify-between sm:justify-around bg-red-600 text-white">
       {tabs.map(({ path, name }) => (
         <Tab to={path} key={path}>
           {name}

@@ -3,8 +3,9 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom/cjs/react-router-dom.min";
 import { applyMiddleware, compose, createStore } from "redux";
 import thunk from "redux-thunk";
-import Routes from "./containers/routes";
+// import Routes from "./containers/routes";
 import reducers from "./reducers";
+import { ClassroomDashboard } from "./shared";
 
 const composeEnhancer =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -20,7 +21,8 @@ function App() {
     <>
       <Provider store={store}>
         <BrowserRouter>
-          <Routes />
+          {/* <Routes /> */}
+          <ClassroomDashboard classID="61ea7bcf1d384aa23f381baf" />
         </BrowserRouter>
       </Provider>
     </>

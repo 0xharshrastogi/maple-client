@@ -1,10 +1,8 @@
 import PropTypes from "prop-types";
-import React, { useReducer, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserEnrolledClassroom } from "../../../api/classrooms";
+import React, { useEffect, useReducer, useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchUserEnrolledClassrooms } from "../../../action";
 import { Button, Model, Spinner } from "../../../components";
-import { useAsync } from "../../../hooks";
-import { user } from "../../../reducers";
 import { JoinClassroomForm } from "./form";
 
 function classroomReducer(state, action) {
@@ -19,30 +17,33 @@ function classroomReducer(state, action) {
   return state;
 }
 
-export const UserJoinedClassrooms = ({ userId }) => {
-  const { count: classCount, results: joinedClassroom } = useSelector((state) => {
-    return state?.user?.enrolledIn;
-  });
-
-  const {} = useReducer(classroomReducer, {
+export const UserJoinedClassrooms = ({ userID }) => {
+  const [portalActive, setPortalActive] = useState(false);
+  const dispatch = useDispatch();
+  const [store, localDispatch] = useReducer(classroomReducer, {
     data: [],
     error: null,
     loading: true,
   });
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    const onErrorHandler = (error) =>
+      localDispatch({ type: "CLASSROOM_FETCHING_FAILURE", payload: error });
 
-  const [portalActive, setPortalActive] = useState(false);
+    const onSuccessHandler = (data) =>
+      localDispatch({ type: "CLASSROOM_FETCHING_SUCCESS", payload: data });
 
-  const { loading, error } = useAsync(async () => {
-    const [data, err] = await getUserEnrolledClassroom(userId);
+    dispatch(
+      fetchUserEnrolledClassrooms({
+        userID,
+        onError: onErrorHandler,
+        onSuccess: onSuccessHandler,
+      })
+    );
+  }, [userID, dispatch]);
 
-    if (err) return console.error(err);
-
-    dispatch({ type: user.insertJoinedClassrooms, payload: data });
-  }, [userId]);
-
-  // if (dispatch) return null;
+  const { data: classrooms, loading, error } = store;
+  console.log(classrooms);
 
   if (loading)
     return (
@@ -62,11 +63,11 @@ export const UserJoinedClassrooms = ({ userId }) => {
 
   const PortalJSX = (
     <Model onClose={() => setPortalActive(false)}>
-      <JoinClassroomForm userId={userId} onClose={() => setPortalActive(false)} />
+      <JoinClassroomForm userId={userID} onClose={() => setPortalActive(false)} />
     </Model>
   );
 
-  if (Array.isArray(joinedClassroom) && classCount === 0)
+  if (!classrooms.length)
     return (
       <>
         {ButtonJSX}
@@ -88,7 +89,7 @@ export const UserJoinedClassrooms = ({ userId }) => {
         </div>
 
         <div className="space-y-3 mt-2">
-          {joinedClassroom?.map((classroom) => (
+          {classrooms?.map((classroom) => (
             <div
               key={classroom.id}
               className="flex px-2 justify-between hover:bg-red-50 cursor-pointer rounded py-1 border-b-2"
@@ -106,5 +107,5 @@ export const UserJoinedClassrooms = ({ userId }) => {
 };
 
 UserJoinedClassrooms.propTypes = {
-  userId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  userID: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };

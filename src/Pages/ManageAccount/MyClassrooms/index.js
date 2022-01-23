@@ -58,5 +58,5 @@ export const UserClassrooms = ({ userID }) => {
 };
 
 UserClassrooms.propTypes = {
-  userID: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  userID: PropTypes.number.isRequired,
 };

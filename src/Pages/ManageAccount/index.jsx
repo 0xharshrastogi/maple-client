@@ -31,7 +31,7 @@ export const ManageAccount = () => {
           </Route>
 
           <Route exact path={`${route.path}/joinedclassrooms`}>
-            <UserJoinedClassrooms userId={userID} />
+            <UserJoinedClassrooms userID={userID} />
           </Route>
         </Switch>
       </section>
