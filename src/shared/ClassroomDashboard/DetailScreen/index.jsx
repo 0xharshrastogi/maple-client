@@ -1,15 +1,25 @@
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import DashboardContext from "../DashboardContext";
+import { Config } from "../useConfig";
 
 const DetailScreen = () => {
   const { loading, data } = useContext(DashboardContext);
-  const [tabOpened, setTabOpened] = useState(false);
+  const [config, dispatch] = useContext(Config);
+
+  const { detailJumboTronOpened } = config;
 
   if (loading) return "Loading...";
 
   const { id: classCode, name, instructor } = data;
+  const handleJumbo = () => {
+    const type = !detailJumboTronOpened
+      ? "DETAIL_SCREEN_JUMBO_OPEN"
+      : "DETAIL_SCREEN_JUMBO_CLOSE";
+
+    dispatch({ type });
+  };
 
   return (
     <section className="px-2 md:container mx-auto py-2">
@@ -20,11 +30,11 @@ const DetailScreen = () => {
             <button
               title="View Info"
               className="text-center h-10 w-10 flex items-center justify-between hover:bg-gray-50 rounded-full hover:bg-opacity-5"
-              onClick={() => setTabOpened((open) => !open)}
+              onClick={handleJumbo}
             >
               <FontAwesomeIcon
                 className="flex-1"
-                icon={tabOpened ? faAngleDown : faAngleUp}
+                icon={detailJumboTronOpened ? faAngleDown : faAngleUp}
               />
             </button>
           </p>
@@ -32,8 +42,8 @@ const DetailScreen = () => {
 
         {/* {tabOpened && ( */}
         <div
-          className={`p-3 text-sm text-gray-700 transform ${
-            tabOpened ? "scale-y-100" : "scale-y-0 hidden"
+          className={`p-3 sm:px-6  text-sm text-gray-700 transform ${
+            detailJumboTronOpened ? "scale-y-100" : "scale-y-0 hidden"
           } transition-transform duration-100 origin-top ease-in-out`}
         >
           <p>
