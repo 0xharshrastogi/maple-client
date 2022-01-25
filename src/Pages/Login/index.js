@@ -4,24 +4,23 @@ import React, { useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
 import GirlWithBookImage from "../../assets/img/GirlWithBookBook.svg";
 import { Button } from "../../components";
+import { useAuth } from "../../hooks";
 /**
  * Component for User Login
  * @return {JSX.Element} Component JSX
  */
 export const Login = () => {
+  const { signin } = useAuth();
   const history = useHistory();
 
   const handelUserSignIn = useCallback(async () => {
     try {
-      // eslint-disable-next-line no-undef
-      const GoogleAuth = gapi.auth2.getAuthInstance();
-      await GoogleAuth.signIn();
-
+      await signin();
       history.push("/");
     } catch (e) {
       console.error(e);
     }
-  }, [history]); // !!Note removed isSingedIn from deps if error occured fix this and uncomment the line: 15
+  }, [history, signin]); // !!Note removed isSingedIn from deps if error occured fix this and uncomment the line: 15
 
   return (
     <>
