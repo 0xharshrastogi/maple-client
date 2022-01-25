@@ -1,79 +1,73 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch } from "react-router-dom";
-import { removeUser, setUser } from "../action/user";
-import { Navbar, PrivateRoute, Spinner } from "../components";
-import { useGoogleAuth } from "../hooks";
-import { Home, Login, ManageAccount, Signup } from "../Pages";
-import { auth, user } from "../reducers";
+import PropTypes from "prop-types";
+import React from "react";
+import { Redirect, Route } from "react-router-dom";
+import { useAuthProvider } from "../hooks";
 
 const Client_ID = process.env?.REACT_APP_GAPI_CLIENTID;
 const Client_Secret = process.env?.REACT_APP_CLIENT_SECRET;
 
-const useInitialiseApp = () => {
-  const dispatch = useDispatch();
-  const { GoogleAuth, error: GAuthError } = useGoogleAuth(Client_ID, Client_Secret);
-  const { data, error, loading } = useSelector((state) => state.user);
+const Routes = () => {
+  const auth = useAuthProvider({ API_KEY: Client_Secret, clientID: Client_ID });
+  console.log(auth);
 
-  useEffect(() => {
-    if (GAuthError) throw GAuthError;
-    if (!GoogleAuth) return;
-
-    const isSignedIn = GoogleAuth.isSignedIn.get();
-
-    if (!isSignedIn) {
-      dispatch({ type: auth.signOut });
-      dispatch({ type: user.LOADING_USER_STOP });
-      return;
-    }
-
-    dispatch(setUser(GoogleAuth));
-  }, [GoogleAuth, GAuthError, dispatch]);
-
-  useEffect(() => {
-    const onLoginChange = (isLogin) => {
-      isLogin ? dispatch(setUser(GoogleAuth)) : dispatch(removeUser());
-    };
-
-    GoogleAuth?.isSignedIn.listen(onLoginChange);
-  }, [GoogleAuth, GAuthError, dispatch]);
-
-  return { loading, error, data };
+  return <h1>Hello</h1>;
 };
 
-const Routes = () => {
-  const isSignIn = useSelector((state) => state?.isSignedIn);
+// const Routes = () => {
+//   const auth = useSelector((state) => state.isSignedIn);
+//   const { loading, error } = useInitialiseApp();
 
-  const { loading, error } = useInitialiseApp();
+//   if (loading) {
+//     return (
+//       <div className="min-h-screen flex flex-col items-center justify-center">
+//         <Spinner />
+//         <h3 className="text-center text-red-600 font-bold mt-4 text-lg">Loading App</h3>
+//       </div>
+//     );
+//   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center">
-        <Spinner />
-        <h3 className="text-center text-red-600 font-bold mt-4 text-lg">Loading App</h3>
-      </div>
+//   if (error) {
+//     console.error(error);
+//     return <div>There is Error: {error.message}</div>;
+//   }
+
+//   return (
+//     <>
+//       <AuthContext.Provider value={auth}>
+//         <Navbar />
+//         <Switch>
+//           <Route exact path="/" component={Home} />
+//           {!auth && <Route exact path="/signup" component={Signup} />}
+//           {!auth && <Route path="/login" component={Login} />}
+
+//           <Private path="/private" component={() => <h1>Hello</h1>} />
+
+//           <Private auth={auth} path="/manage" component={ManageAccount} />
+
+//           <Route path="*">404</Route>
+//         </Switch>
+//       </AuthContext.Provider>
+//     </>
+//   );
+// };
+
+const Private = ({ component, auth, ...rest }) => {
+  console.log({ auth });
+  const Render = (props) => {
+    return auth ? (
+      component
+    ) : (
+      // eslint-disable-next-line react/prop-types
+      <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
     );
-  }
+  };
 
-  if (error) {
-    console.error(error);
-    return <div>There is Error: {error.message}</div>;
-  }
+  return <Route {...rest} render={Render} />;
+};
 
-  return (
-    <>
-      <Navbar />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        {!isSignIn && <Route exact path="/signup" component={Signup} />}
-        {!isSignIn && <Route path="/login" component={Login} />}
-
-        <PrivateRoute path="/manage" component={ManageAccount} />
-
-        <Route path="*">404</Route>
-      </Switch>
-    </>
-  );
+Private.propTypes = {
+  component: PropTypes.func,
+  auth: PropTypes.bool,
 };
 
 export default Routes;

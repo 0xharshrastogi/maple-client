@@ -8,20 +8,6 @@ import Button from "../Button/Button";
 import "./Navbar.css";
 import RenderUserJSX from "./UserMenu";
 
-/**
- * Props Of Navbar
- *
- * @typedef {Object} NavbarProps
- *
- * @property {boolean} logo If true renders only the brand logo in navbar
- */
-
-/**
- * Component for Navbar
- *
- * @param {NavbarProps} props
- */
-
 const Navbar = ({ logo }) => {
   const { isLoggedIn, user } = useSelector((store) => {
     return { isLoggedIn: store.isSignedIn, user: store.user };

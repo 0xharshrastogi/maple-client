@@ -33,7 +33,6 @@ export function setUser(GoogleAuth) {
 
   return async (dispatch) => {
     const userID = extractUserId(GoogleAuth);
-    userID;
 
     try {
       const data = await server.User.getUser({ userID });
