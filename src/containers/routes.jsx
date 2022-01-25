@@ -1,7 +1,6 @@
-import PropTypes from "prop-types";
 import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import { Navbar, Spinner } from "../components";
+import { Route, Switch } from "react-router-dom";
+import { AuthenticatedRoute, Navbar, Spinner } from "../components";
 import { useAuth, useAuthProvider } from "../hooks";
 import { Home, Login, ManageAccount, Signup } from "../Pages";
 
@@ -35,9 +34,9 @@ const Routes = () => {
         {!login && <Route exact path="/signup" component={Signup} />}
         {!login && <Route path="/login" component={Login} />}
 
-        <Private path="/private" component={() => <h1>Hello</h1>} />
+        <AuthenticatedRoute path="/private" component={() => <h1>Hello</h1>} />
 
-        <Private path="/manage" component={ManageAccount} />
+        <AuthenticatedRoute path="/manage" component={ManageAccount} />
 
         <Route path="*">404</Route>
       </Switch>
@@ -54,25 +53,6 @@ const Setup = () => {
       <Routes />
     </AuthProvider>
   );
-};
-
-const Private = ({ component: Component, ...rest }) => {
-  const auth = useAuth();
-
-  const Render = (props) => {
-    return auth.isLogin() ? (
-      <Component />
-    ) : (
-      // eslint-disable-next-line react/prop-types
-      <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
-    );
-  };
-
-  return <Route {...rest} render={Render} />;
-};
-
-Private.propTypes = {
-  component: PropTypes.func,
 };
 
 export default Setup;

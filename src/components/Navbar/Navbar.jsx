@@ -1,19 +1,16 @@
 /* eslint-disable no-undef */
 import PropTypes from "prop-types";
 import React from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import brandLogo from "../../assets/img/logo.svg";
+import { useAuth } from "../../hooks";
 import Button from "../Button/Button";
 import "./Navbar.css";
 import RenderUserJSX from "./UserMenu";
 
 const Navbar = ({ logo }) => {
-  const { isLoggedIn, user } = useSelector((store) => {
-    return { isLoggedIn: store.isSignedIn, user: store.user };
-  });
-
-  const { data: userData } = user;
+  const { user, isLogin } = useAuth();
+  const login = isLogin();
 
   return (
     <nav className="flex items-center justify-between py-3 px-2 navbar md:px-9">
@@ -25,7 +22,7 @@ const Navbar = ({ logo }) => {
       </Link>
       {/* will render default untill logo is requiredOnly*/}
 
-      {!logo && !isLoggedIn && (
+      {!logo && !login && (
         <div className="space-x-3 sm:space-x-10">
           <Button to="/login">Login</Button>
           <Button to="/signup" type="secondary">
@@ -34,11 +31,11 @@ const Navbar = ({ logo }) => {
         </div>
       )}
 
-      {!logo && isLoggedIn && (
+      {!logo && login && (
         <RenderUserJSX
-          email={userData.email}
-          fullname={userData.fullname}
-          imageSRC={userData.imageURL}
+          email={user.email}
+          fullname={user.fullname}
+          imageSRC={user.imageURL}
         />
       )}
     </nav>
