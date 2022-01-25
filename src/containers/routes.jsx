@@ -1,61 +1,67 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Redirect, Route } from "react-router-dom";
-import { useAuthProvider } from "../hooks";
+import { Redirect, Route, Switch } from "react-router-dom";
+import { Navbar, Spinner } from "../components";
+import { useAuth, useAuthProvider } from "../hooks";
+import { Home, Login, ManageAccount, Signup } from "../Pages";
 
 const Client_ID = process.env?.REACT_APP_GAPI_CLIENTID;
 const Client_Secret = process.env?.REACT_APP_CLIENT_SECRET;
 
 const Routes = () => {
-  const auth = useAuthProvider({ API_KEY: Client_Secret, clientID: Client_ID });
-  console.log(auth);
+  const auth = useAuth();
 
-  return <h1>Hello</h1>;
+  if (auth.loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <Spinner />
+        <h3 className="text-center text-red-600 font-bold mt-4 text-lg">Loading App</h3>
+      </div>
+    );
+  }
+
+  if (auth.error) {
+    console.error(auth.error);
+    return <div>There is Error: {auth.error.message}</div>;
+  }
+
+  const login = auth.isLogin();
+
+  return (
+    <>
+      <Navbar />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        {!login && <Route exact path="/signup" component={Signup} />}
+        {!login && <Route path="/login" component={Login} />}
+
+        <Private path="/private" component={() => <h1>Hello</h1>} />
+
+        <Private path="/manage" component={ManageAccount} />
+
+        <Route path="*">404</Route>
+      </Switch>
+    </>
+  );
 };
 
-// const Routes = () => {
-//   const auth = useSelector((state) => state.isSignedIn);
-//   const { loading, error } = useInitialiseApp();
+// eslint-disable-next-line react/prop-types
+const Setup = () => {
+  const AuthProvider = useAuthProvider({ API_KEY: Client_Secret, clientID: Client_ID });
 
-//   if (loading) {
-//     return (
-//       <div className="min-h-screen flex flex-col items-center justify-center">
-//         <Spinner />
-//         <h3 className="text-center text-red-600 font-bold mt-4 text-lg">Loading App</h3>
-//       </div>
-//     );
-//   }
+  return (
+    <AuthProvider>
+      <Routes />
+    </AuthProvider>
+  );
+};
 
-//   if (error) {
-//     console.error(error);
-//     return <div>There is Error: {error.message}</div>;
-//   }
+const Private = ({ component: Component, ...rest }) => {
+  const auth = useAuth();
 
-//   return (
-//     <>
-//       <AuthContext.Provider value={auth}>
-//         <Navbar />
-//         <Switch>
-//           <Route exact path="/" component={Home} />
-//           {!auth && <Route exact path="/signup" component={Signup} />}
-//           {!auth && <Route path="/login" component={Login} />}
-
-//           <Private path="/private" component={() => <h1>Hello</h1>} />
-
-//           <Private auth={auth} path="/manage" component={ManageAccount} />
-
-//           <Route path="*">404</Route>
-//         </Switch>
-//       </AuthContext.Provider>
-//     </>
-//   );
-// };
-
-const Private = ({ component, auth, ...rest }) => {
-  console.log({ auth });
   const Render = (props) => {
-    return auth ? (
-      component
+    return auth.isLogin() ? (
+      <Component />
     ) : (
       // eslint-disable-next-line react/prop-types
       <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
@@ -67,7 +73,6 @@ const Private = ({ component, auth, ...rest }) => {
 
 Private.propTypes = {
   component: PropTypes.func,
-  auth: PropTypes.bool,
 };
 
-export default Routes;
+export default Setup;

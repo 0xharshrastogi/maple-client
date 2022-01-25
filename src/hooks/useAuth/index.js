@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import React from "react";
+import React, { useCallback } from "react";
 import { fetchUserData } from "./helper";
 import { reducer } from "./reducer";
 
@@ -134,12 +134,16 @@ export const useAuthProvider = ({ clientID, API_KEY }) => {
     auth.isSignedIn.listen((login) => (login ? handleSignin() : handleSignout()));
   }, [auth]);
 
-  return {
-    signout,
-    signin,
-    error: UserError,
-    isLogin,
-    user,
-    loading,
-  };
+  const Provider = useCallback(
+    ({ children }) => (
+      <AuthContext.Provider
+        value={{ signout, signin, error: UserError, isLogin, user, loading }}
+      >
+        {children}
+      </AuthContext.Provider>
+    ),
+    [UserError, isLogin, loading, signin, signout, user]
+  );
+
+  return Provider;
 };
