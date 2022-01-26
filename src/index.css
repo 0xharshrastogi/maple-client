@@ -46,11 +46,7 @@
 
 body {
   margin: 0;
-<<<<<<< HEAD
-  font-family: -apple-system, "TTNorms";
-=======
   font-family: -apple-system, BlinkMacSystemFont, "Ubuntu", sans-serif;
->>>>>>> ui_imporovement
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

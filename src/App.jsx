@@ -21,7 +21,6 @@ function App() {
       <Provider store={store}>
         <BrowserRouter>
           <Routes />
-          {/* <ClassroomDashboard classID="61ea7bcf1d384aa23f381baf" /> */}
         </BrowserRouter>
       </Provider>
     </>
