@@ -1,17 +1,25 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { useSelector } from "react-redux";
 import { Redirect, Route } from "react-router-dom";
+import { useAuth } from "../../hooks";
 
-export const PrivateRoute = ({ children, ...rest }) => {
-  const isSignIn = useSelector((state) => state?.isSignedIn);
+const Private = ({ component: Component, ...rest }) => {
+  const auth = useAuth();
 
-  if (!isSignIn) return <Redirect to="/"></Redirect>;
+  const Render = (props) => {
+    return auth.isLogin() ? (
+      <Component />
+    ) : (
+      // eslint-disable-next-line react/prop-types
+      <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
+    );
+  };
 
-  return <Route {...rest}>{children}</Route>;
+  return <Route {...rest} render={Render} />;
 };
 
-PrivateRoute.propTypes = {
-  rest: PropTypes.object,
-  children: PropTypes.node,
+Private.propTypes = {
+  component: PropTypes.func,
 };
+
+export default Private;

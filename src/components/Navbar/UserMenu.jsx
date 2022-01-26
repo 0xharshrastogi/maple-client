@@ -7,17 +7,10 @@ import Model from "../Model/Model";
 import ToolTip, { ToolTipWrapper } from "../ToolTip/ToolTip";
 import RenderUserModel from "./RenderUserModel";
 
-const RenderUserJSX = ({ email, fullname, imageSRC }) => {
+const RenderUserJSX = ({ email, fullname, imageSRC, onSignout: signoutHandler }) => {
   const [portalActive, setPortalActive] = useState(false);
   const largerDisplay = useMediaQuery("(min-width: 640px)", true, false);
-
   const [tooltipActice, setTooltipActice] = useToolTip(false);
-
-  const handleLogOut = useCallback(() => {
-    // eslint-disable-next-line no-undef
-    const GoogleAuth = gapi.auth2.getAuthInstance();
-    GoogleAuth.signOut();
-  }, []);
 
   const handelModalToogle = useCallback(() => {
     setPortalActive((state) => !state);
@@ -59,7 +52,7 @@ const RenderUserJSX = ({ email, fullname, imageSRC }) => {
               >
                 Manage Your Account
               </Button>
-              <Button full onClick={handleLogOut}>
+              <Button full onClick={signoutHandler}>
                 Logout
               </Button>
             </div>
@@ -74,6 +67,7 @@ RenderUserJSX.propTypes = {
   email: PropTypes.string.isRequired,
   fullname: PropTypes.string.isRequired,
   imageSRC: PropTypes.string.isRequired,
+  onSignout: PropTypes.func.isRequired,
 };
 
 export default RenderUserJSX;

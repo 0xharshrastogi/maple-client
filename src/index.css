@@ -46,7 +46,11 @@
 
 body {
   margin: 0;
+<<<<<<< HEAD
   font-family: -apple-system, "TTNorms";
+=======
+  font-family: -apple-system, BlinkMacSystemFont, "Ubuntu", sans-serif;
+>>>>>>> ui_imporovement
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -57,7 +61,7 @@ body {
   justify-content: center;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   background-color: wheat;
   width: 10px;
 }

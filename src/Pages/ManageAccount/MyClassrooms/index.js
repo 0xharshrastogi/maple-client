@@ -1,27 +1,29 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useReducer } from "react";
-import { useDispatch } from "react-redux";
-import { fetchUserClassroom } from "../../../action/classroom";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { UserClassrooms as UserClassroomsAction } from "../../../action";
 import { Spinner } from "../../../components";
 import { Classrooms } from "./Classrooms";
 
-const INITIAL_STATE = {
-  data: [],
-  error: null,
-  loading: true,
+const useClassroomDashboard = ({ userID }) => {
+  const dispatch = useDispatch();
+  const result = useSelector(({ userCreatedClassrooms }) => {
+    return userCreatedClassrooms;
+  });
+
+  const create = React.useCallback(
+    (data) => {
+      dispatch(UserClassroomsAction.create({ userID, data }));
+    },
+    [dispatch, userID]
+  );
+
+  React.useEffect(() => {
+    dispatch(UserClassroomsAction.created.list({ userID }));
+  }, [dispatch, userID]);
+
+  return { create, loading: result.loading, error: result.error, data: result.data };
 };
-
-function classroomReducer(state = INITIAL_STATE, action) {
-  switch (action.type) {
-    case "CLASSROOM_FETCHING_FAILURE":
-      return Object.assign({}, { error: action.payload, loading: false });
-
-    case "CLASSROOM_FETCHING_SUCCESS":
-      return Object.assign({}, { data: action.payload, loading: false });
-  }
-
-  return state;
-}
 
 const Loading = () => (
   <div className="flex justify-center items-center flex-col p-5 mt-5">
@@ -31,32 +33,24 @@ const Loading = () => (
 );
 
 export const UserClassrooms = ({ userID }) => {
-  const dispatch = useDispatch();
+  const classrooms = useClassroomDashboard({ userID });
 
-  const [store, localDispatch] = useReducer(classroomReducer, { ...INITIAL_STATE });
+  if (classrooms.loading) return <Loading />;
 
-  useEffect(() => {
-    const onSuccess = (data) =>
-      localDispatch({ type: "CLASSROOM_FETCHING_SUCCESS", payload: data });
-
-    const onError = (err) =>
-      localDispatch({ type: "CLASSROOM_FETCHING_FAILURE", payload: err });
-
-    dispatch(fetchUserClassroom({ userID, onSuccess, onError }));
-  }, [userID, dispatch]);
-
-  const { error, loading, data: classrooms } = store;
-
-  if (loading) return <Loading />;
-
-  if (error) {
-    console.error(error);
+  if (classrooms.error) {
+    console.error(classrooms.error);
     return null;
   }
-
-  return <Classrooms classrooms={classrooms} userID={userID} />;
+  console.count("User Classrooms Created Render");
+  return (
+    <Classrooms
+      onCreate={classrooms.create}
+      classrooms={classrooms.data}
+      userID={userID.toString()}
+    />
+  );
 };
 
 UserClassrooms.propTypes = {
-  userID: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  userID: PropTypes.any,
 };
