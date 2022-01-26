@@ -12,11 +12,19 @@ const FormPortal = ({ onClose, onSubmit, userID }) => {
   );
 };
 
-export const Classrooms = ({ classrooms, userID }) => {
+export const Classrooms = ({ classrooms, userID, onCreate: createHandler }) => {
   const [isPortalActive, setIsPortalActive] = useState(false);
 
-  const closePortalHandler = () => setIsPortalActive(false);
+  const closePortalHandler = React.useCallback(
+    (data) => {
+      setIsPortalActive(false);
+      createHandler(data);
+    },
+    [createHandler]
+  );
+
   const openPortalHandler = () => setIsPortalActive(true);
+
   const Form = () => (
     <FormPortal
       userID={userID}
@@ -83,6 +91,7 @@ FormPortal.propTypes = {
 };
 
 Classrooms.propTypes = {
+  onCreate: PropTypes.func.isRequired,
   classrooms: PropTypes.array.isRequired,
   userID: PropTypes.string.isRequired,
 };

@@ -4,6 +4,14 @@ import {
   fetchUserEnrolledClassrooms,
 } from "./classroom";
 import { removeUser, setUser } from "./user";
+import { createClassroom, fetchExistingClassroom } from "./userClassroom.action";
+
+const UserClassrooms = {
+  created: {
+    list: fetchExistingClassroom,
+  },
+  create: createClassroom,
+};
 
 export {
   setUser,
@@ -11,4 +19,5 @@ export {
   fetchUserClassroom,
   fetchUserEnrolledClassrooms,
   fetchClassdata,
+  UserClassrooms,
 };

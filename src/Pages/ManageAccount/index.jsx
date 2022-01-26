@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { useAuth } from "../../hooks";
 import { Greeting } from "./Greeting";
 import { UserJoinedClassrooms } from "./JoinedClassroom";
 import { UserClassrooms } from "./MyClassrooms";
@@ -8,9 +8,9 @@ import { TabBar } from "./tabBar";
 
 export const ManageAccount = () => {
   const route = useRouteMatch();
-  const { id: userID, name } = useSelector((store) => {
-    return store.user.data;
-  });
+  const {
+    user: { id: userID, name },
+  } = useAuth();
 
   const tabsData = useMemo(() => {
     return [

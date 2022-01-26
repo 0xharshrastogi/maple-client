@@ -1,23 +1,13 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { createNewClassroom } from "../../../api/classrooms";
 import { Button } from "../../../components";
-import { user } from "../../../reducers";
 
-const CreateClassRoomForm = ({ userId, onSubmit: handelSubmit }) => {
+const CreateClassRoomForm = ({ onSubmit: handelSubmit }) => {
   const [name, setName] = useState("");
-  const dispatch = useDispatch();
-  dispatch;
 
   const handelCreateClass = async (e) => {
     e.preventDefault();
-
-    const [data, err] = await createNewClassroom({ name }, userId);
-    if (err) return console.error(err);
-
-    dispatch({ type: user.pushClassrooms, payload: data });
-    handelSubmit();
+    handelSubmit({ name });
   };
 
   return (

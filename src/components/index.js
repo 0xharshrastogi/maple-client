@@ -5,7 +5,7 @@ import ListItem from "./ListItem/ListItem";
 import Model from "./Model/Model";
 import Navbar from "./Navbar/Navbar";
 import Portal from "./Portal/Portal";
-import AuthenticatedRoute from "./PrivateRoute";
+import AuthenticatedRoute from "./PrivateRoute/PrivateRoute";
 import Spinner from "./Spinner/Spinner";
 import ToolTip from "./ToolTip/ToolTip";
 
