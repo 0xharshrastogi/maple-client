@@ -43,7 +43,6 @@ export const UserJoinedClassrooms = ({ userID }) => {
   }, [userID, dispatch]);
 
   const { data: classrooms, loading, error } = store;
-  console.log(classrooms);
 
   if (loading)
     return (

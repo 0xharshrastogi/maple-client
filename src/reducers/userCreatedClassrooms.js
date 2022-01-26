@@ -14,10 +14,7 @@ const type = {
 
 function pushClassrooms(oldClassrooms = [], newClassroom) {
   oldClassrooms.push(newClassroom);
-  const result = oldClassrooms.map((classes) => ({ ...classes }));
-  console.log(result);
-
-  return result;
+  return oldClassrooms.map((classes) => ({ ...classes }));
 }
 
 const reducer = (state = initialState, action) => {

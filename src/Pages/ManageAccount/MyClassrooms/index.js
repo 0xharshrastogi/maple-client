@@ -41,7 +41,7 @@ export const UserClassrooms = ({ userID }) => {
     console.error(classrooms.error);
     return null;
   }
-  console.count("User Classrooms Created Render");
+
   return (
     <Classrooms
       onCreate={classrooms.create}
