@@ -29,7 +29,7 @@ export async function createClassroom({ userID, data }) {
 }
 
 export async function enrollToClassroom({ userID, classID }) {
-  const response = await client.patch(`${path}/${userID}/enroll/${classID}`);
+  const response = await client.patch(path + `${userID}/enroll/${classID}`);
   return response;
 }
 

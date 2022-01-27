@@ -5,7 +5,7 @@ import { UserClassrooms as UserClassroomsAction } from "../../../action";
 import { Spinner } from "../../../components";
 import { Classrooms } from "./Classrooms";
 
-const useClassroomDashboard = ({ userID }) => {
+const useCreatedClassroom = ({ userID }) => {
   const dispatch = useDispatch();
   const result = useSelector(({ userCreatedClassrooms }) => {
     return userCreatedClassrooms;
@@ -33,7 +33,7 @@ const Loading = () => (
 );
 
 export const UserClassrooms = ({ userID }) => {
-  const classrooms = useClassroomDashboard({ userID });
+  const classrooms = useCreatedClassroom({ userID });
 
   if (classrooms.loading) return <Loading />;
 

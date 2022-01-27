@@ -1,17 +1,15 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { getClassroomData, joinClassRoom } from "../../../api/classrooms";
+import server from "../../../api/server";
 import { Button } from "../../../components";
-import { user } from "../../../reducers";
 
-export const JoinClassroomForm = ({ userId, onClose: handleClose }) => {
-  const [classId, setClassId] = useState("");
+export const JoinClassroomForm = ({ onSubmit: submitHandler }) => {
+  const [classID, setClassID] = useState("");
   const [error, setError] = useState(null);
   const [classData, setClassData] = useState(null);
-  const dispatch = useDispatch();
 
   let rendredJSX = null;
+
   if (classData)
     rendredJSX = (
       <div className="text-center mx-3 mt-5 md:w-96 flex flex-col items-center">
@@ -31,16 +29,7 @@ export const JoinClassroomForm = ({ userId, onClose: handleClose }) => {
           <Button full type="secondary" onClick={() => setClassData(null)}>
             Close
           </Button>
-          <Button
-            full
-            onClick={async () => {
-              const [, error] = await joinClassRoom(userId, classId);
-              if (error) return console.error(error);
-              console.log(typeof handleClose);
-              handleClose();
-              dispatch({ type: user.pushJoinedClassroom, payload: classData });
-            }}
-          >
+          <Button full onClick={() => submitHandler({ classID })}>
             Join
           </Button>
         </div>
@@ -60,10 +49,10 @@ export const JoinClassroomForm = ({ userId, onClose: handleClose }) => {
             className="text-gray-600 rounded p-2"
             type="text"
             name="classId"
-            value={classId}
+            value={classID}
             onChange={(e) => {
-              setClassId(e.target.value);
-              classId && error && setError(null);
+              setClassID(e.target.value);
+              classID && error && setError(null);
             }}
             placeholder="Software Testing"
           />
@@ -74,17 +63,18 @@ export const JoinClassroomForm = ({ userId, onClose: handleClose }) => {
             full
             onClick={async (e) => {
               e.preventDefault();
-              if (!classId) return setError(new Error("Class ID Cann't Be Empty"));
-              const [classroomData, err] = await getClassroomData(classId);
+              if (!classID) return setError(new Error("Class ID Cann't Be Empty"));
 
-              if (err) {
-                if (err.message.includes("Cast to ObjectId failed for value"))
-                  return setError(new Error("Invalid User Id"));
+              try {
+                const classData = await server.Classroom.fetchData({ classID });
+                setClassData(classData);
+              } catch (error) {
+                if (error.message.includes("Cast to ObjectId failed for value"))
+                  return setError(new Error("Invalid Classroom Id"));
 
-                const e = new Error(err.message);
+                const e = new Error(error.message);
                 setError(e);
               }
-              setClassData(classroomData);
             }}
           >
             Submit
@@ -105,4 +95,5 @@ export const JoinClassroomForm = ({ userId, onClose: handleClose }) => {
 JoinClassroomForm.propTypes = {
   userId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
