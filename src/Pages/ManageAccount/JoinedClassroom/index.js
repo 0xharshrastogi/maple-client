@@ -1,48 +1,45 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useReducer, useState } from "react";
-import { useDispatch } from "react-redux";
-import { fetchUserEnrolledClassrooms } from "../../../action";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { UserClassrooms } from "../../../action";
 import { Button, Model, Spinner } from "../../../components";
 import { JoinClassroomForm } from "./form";
 
-function classroomReducer(state, action) {
-  switch (action.type) {
-    case "CLASSROOM_FETCHING_FAILURE":
-      return Object.assign({}, { error: action.payload, loading: false });
+const useEnrolledClassrooms = ({ userID }) => {
+  const result = useSelector(({ userEnrolledClassrooms }) => userEnrolledClassrooms);
+  const dispatch = useDispatch();
 
-    case "CLASSROOM_FETCHING_SUCCESS":
-      return Object.assign({}, { data: action.payload, loading: false });
-  }
+  const join = React.useCallback(
+    ({ classID }) => {
+      if (!classID) throw new Error("Class ID Not Passed");
+      dispatch(UserClassrooms.join({ userID, classID }));
+    },
+    [dispatch, userID]
+  );
 
-  return state;
-}
+  React.useEffect(() => {
+    dispatch(UserClassrooms.enrolled.list({ userID }));
+  }, [dispatch, userID]);
+
+  return React.useMemo(
+    () => ({ data: result.data, loading: result.loading, error: result.error, join }),
+    [result, join]
+  );
+};
 
 export const UserJoinedClassrooms = ({ userID }) => {
+  const enrolled = useEnrolledClassrooms({ userID });
   const [portalActive, setPortalActive] = useState(false);
-  const dispatch = useDispatch();
-  const [store, localDispatch] = useReducer(classroomReducer, {
-    data: [],
-    error: null,
-    loading: true,
-  });
+  const onSubmitHandler = React.useCallback(
+    ({ classID }) => {
+      setPortalActive(false);
+      enrolled.join({ classID });
+    },
+    [enrolled]
+  );
 
-  useEffect(() => {
-    const onErrorHandler = (error) =>
-      localDispatch({ type: "CLASSROOM_FETCHING_FAILURE", payload: error });
-
-    const onSuccessHandler = (data) =>
-      localDispatch({ type: "CLASSROOM_FETCHING_SUCCESS", payload: data });
-
-    dispatch(
-      fetchUserEnrolledClassrooms({
-        userID,
-        onError: onErrorHandler,
-        onSuccess: onSuccessHandler,
-      })
-    );
-  }, [userID, dispatch]);
-
-  const { data: classrooms, loading, error } = store;
+  const { data: classrooms, loading, error } = enrolled;
+  let ErrorJSX = null;
 
   if (loading)
     return (
@@ -52,7 +49,15 @@ export const UserJoinedClassrooms = ({ userID }) => {
       </div>
     );
 
-  if (error) return console.error(error);
+  if (error) {
+    console.error(error);
+
+    ErrorJSX = (
+      <div className="mt-4 text-center bg-red-200 p-5 text-red-700  ">
+        {error.message}
+      </div>
+    );
+  }
 
   const ButtonJSX = (
     <div className="my-5 text-right">
@@ -62,7 +67,11 @@ export const UserJoinedClassrooms = ({ userID }) => {
 
   const PortalJSX = (
     <Model onClose={() => setPortalActive(false)}>
-      <JoinClassroomForm userId={userID} onClose={() => setPortalActive(false)} />
+      <JoinClassroomForm
+        onSubmit={onSubmitHandler}
+        userId={userID}
+        onClose={() => setPortalActive(false)}
+      />
     </Model>
   );
 
@@ -80,6 +89,7 @@ export const UserJoinedClassrooms = ({ userID }) => {
   return (
     <>
       {ButtonJSX}
+      {ErrorJSX}
       {portalActive && PortalJSX}
       <div className="mt-5 md:mx-auto lg:max-w-2xl">
         <div className="flex justify-between bg-red-600 px-2 rounded text-lg font-medium">
