@@ -66,9 +66,15 @@ export const Classrooms = ({ classrooms, userID, onCreate: createHandler }) => {
           <span className="text-white">Created At</span>
         </div>
 
-        <div className="space-y-3 mt-2">
+        <ul className="space-y-3 mt-2">
           {classrooms.map((classroom) => (
-            <div
+            <li
+              title="Click To Copy Code"
+              onClick={() =>
+                navigator?.clipboard
+                  .writeText(classroom.id)
+                  .catch((reason) => console.log("Failed For:", reason))
+              }
               key={classroom.id}
               className="flex px-2 justify-between hover:bg-red-50 cursor-pointer rounded py-1 border-b-2"
             >
@@ -76,9 +82,9 @@ export const Classrooms = ({ classrooms, userID, onCreate: createHandler }) => {
               <span className="text-xs text-gray-400">
                 {parseDate(new Date(classroom.createdAt))}
               </span>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </>
   );
