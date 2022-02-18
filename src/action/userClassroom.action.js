@@ -17,6 +17,7 @@ export const createClassroom = ({ userID, data }) => {
     try {
       dispatch({ type: userClassrooms.startLoading });
       const result = await server.Classroom.create({ userID, data });
+      console.log({ result });
       dispatch({ type: userClassrooms.pushClassroom, payload: result });
     } catch (error) {
       dispatch({ type: userClassrooms.error, payload: error });

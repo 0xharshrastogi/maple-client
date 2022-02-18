@@ -32,7 +32,7 @@ const Navbar = ({ logo }) => {
       {!logo && login && (
         <RenderUserJSX
           email={user.email}
-          fullname={user.fullname}
+          fullname={user.firstname}
           imageSRC={user.imageURL}
           onSignout={signoutHandler}
         />

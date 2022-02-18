@@ -1,5 +1,4 @@
 import server from "../../api/server";
-import error from "../../error";
 import { parseUser } from "../../utils";
 
 export function extractUserId(GoogleAuth) {
@@ -11,9 +10,12 @@ export function extractUserId(GoogleAuth) {
 
 async function postNewUserRecord(currentUser) {
   const data = parseUser(currentUser.getBasicProfile());
-
   try {
-    const userData = await server.User.postUser({ data });
+    const userData = await server.User.postUser({
+      ...data,
+      userID: data.userId,
+      givenname: data.givenName,
+    });
     return userData;
   } catch (err) {
     return err;
@@ -24,10 +26,11 @@ export async function fetchUserData(GoogleAuth) {
   const userID = extractUserId(GoogleAuth);
 
   try {
+    // TODO: Getiing Unknow Response From Server To BE FIxed
     const data = await server.User.getUser({ userID });
-    return data;
+    return data.user;
   } catch (err) {
-    if (err.code === error.NOT_FOUND)
+    if (err.status === "Not Found")
       return postNewUserRecord(GoogleAuth.currentUser.get());
 
     return err;

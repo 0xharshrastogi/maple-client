@@ -2,7 +2,7 @@ import server from "./config";
 
 export async function getUserClass(userId) {
   try {
-    const res = await server.get(`/v1/user/${userId}/class`);
+    const res = await server.get(`/v1/user/${userId}/classroom`);
     return [res.data, undefined];
   } catch (err) {
     return [undefined, err.response.data];
@@ -12,7 +12,7 @@ export async function getUserClass(userId) {
 export async function getUserEnrolledClassroom(userId) {
   try {
     const res = await server.get(`/v1/user/${userId}`);
-    return [res.data.enrolledIn, undefined];
+    return [res.data.classrooms, undefined];
   } catch (err) {
     return [undefined, err.response.data];
   }
@@ -21,7 +21,7 @@ export async function getUserEnrolledClassroom(userId) {
 export async function createNewClassroom(data, userId) {
   try {
     if (!("name" in data)) throw new Error("Name Field In Not In Data");
-    const res = await server.post(`/v1/user/${userId}/class`, data);
+    const res = await server.post(`/v1/user/${userId}/classroom`, data);
     return [res.data, undefined];
   } catch (err) {
     return [undefined, err.response.data];

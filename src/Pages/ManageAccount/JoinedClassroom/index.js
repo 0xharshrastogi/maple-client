@@ -26,7 +26,14 @@ const useEnrolledClassrooms = ({ userID }) => {
     [result, join]
   );
 };
-
+// {admin: "620a5985e004b71a5f28cc5f"
+// classID: "akSN55x"
+// createdAt: "2022-02-14T15:03:25.735Z"
+// description: ""
+// headerImgUrl: "https://gstatic.com/classroom/themes/img_breakfast.jpg"
+// name: "Quitzon - Wisoky"
+// subjectName: ""
+// updatedAt: "2022-02-14T15:03:25.735Z"}
 export const UserJoinedClassrooms = ({ userID }) => {
   const enrolled = useEnrolledClassrooms({ userID });
   const [portalActive, setPortalActive] = useState(false);
@@ -100,12 +107,12 @@ export const UserJoinedClassrooms = ({ userID }) => {
         <div className="space-y-3 mt-2">
           {classrooms?.map((classroom) => (
             <div
-              key={classroom.id}
+              key={classroom.classID}
               className="flex px-2 justify-between hover:bg-red-50 cursor-pointer rounded py-1 border-b-2"
             >
               <span className="text-gray-800">{classroom.name}</span>
               <span className="text-xs text-gray-400 flex items-center">
-                {classroom.instructor.name.first} {classroom.instructor.name.last}
+                {classroom.admin.givenname}
               </span>
             </div>
           ))}

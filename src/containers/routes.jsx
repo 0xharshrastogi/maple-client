@@ -34,7 +34,7 @@ const Routes = () => {
         {!login && <Route exact path="/signup" component={Signup} />}
         {!login && <Route path="/login" component={Login} />}
 
-        <AuthenticatedRoute path="/private" component={() => <h1>Hello</h1>} />
+        {/* <AuthenticatedRoute path="/private" component={() => <h1>Hello</h1>} /> */}
 
         <AuthenticatedRoute path="/manage" component={ManageAccount} />
 

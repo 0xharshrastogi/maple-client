@@ -1,21 +1,21 @@
-import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
-import Portal from '../Portal/Portal';
+import PropTypes from "prop-types";
+import React, { useEffect } from "react";
+import Portal from "../Portal/Portal";
 
 const Model = ({ onClose, children, backgroundStylesClasses, modelStyleClasses }) => {
   useEffect(() => {
     const onClickHandler = (e) => onClose(e);
-    const onKeyPressHandler = (e) => e.code === 'Escape' && onClose(e);
+    const onKeyPressHandler = (e) => e.code === "Escape" && onClose(e);
 
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
 
-    window.addEventListener('click', onClickHandler);
-    window.addEventListener('keydown', onKeyPressHandler);
+    window.addEventListener("click", onClickHandler);
+    window.addEventListener("keydown", onKeyPressHandler);
 
     return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('click', onClickHandler);
-      window.removeEventListener('keydown', onKeyPressHandler);
+      document.body.style.overflow = "";
+      window.removeEventListener("click", onClickHandler);
+      window.removeEventListener("keydown", onKeyPressHandler);
     };
   }, [onClose]);
 

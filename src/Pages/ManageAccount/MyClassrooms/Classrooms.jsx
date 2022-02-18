@@ -4,6 +4,17 @@ import { Button, Model } from "../../../components";
 import { parseDate } from "../../../utils";
 import Form from "./form";
 
+// admin: "620d0572b4122007c928af2a"
+// classID: "QuRe5mM"
+// createdAt: "2022-02-16T14:21:06.094Z"
+// description: ""
+// headerImgUrl: "https://gstatic.com/classroom/themes/img_breakfast.jpg"
+// name: "RESTfull"
+// subjectName: ""
+// updatedAt: "2022-02-16T14:21:06.094Z"
+// __v: 0
+// _id: "620d0852b4122007c928af4d"
+
 const FormPortal = ({ onClose, onSubmit, userID }) => {
   return (
     <Model onClose={onClose}>
@@ -72,10 +83,10 @@ export const Classrooms = ({ classrooms, userID, onCreate: createHandler }) => {
               title="Click To Copy Code"
               onClick={() =>
                 navigator?.clipboard
-                  .writeText(classroom.id)
+                  .writeText(classroom.classID)
                   .catch((reason) => console.log("Failed For:", reason))
               }
-              key={classroom.id}
+              key={classroom.classID}
               className="flex px-2 justify-between hover:bg-red-50 cursor-pointer rounded py-1 border-b-2"
             >
               <span className="text-gray-800">{classroom.name}</span>

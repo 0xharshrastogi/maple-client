@@ -1,19 +1,18 @@
 import client from "./config";
-import { getUser } from "./user";
 
-const path = "/v1/user/";
+const path = "/v1/user";
 
 export async function fetchUserClassrooms({ userID }) {
   if (typeof userID !== "number" && typeof userID !== "string")
     throw new TypeError("UserID should be STRING | NUMBER");
 
-  const { result } = await client.get(path + userID.toString() + "/class");
-  return result;
+  const { classrooms } = await client.get(`${path}/${userID}/classroom`);
+  return classrooms;
 }
 
 export async function fetchUserEnrolledClassrooms({ userID }) {
-  const { enrolledIn } = await getUser({ userID });
-  return enrolledIn.results;
+  const classrooms = await client.get(`${path}/${userID}/enroll`);
+  return classrooms;
 }
 
 export async function createClassroom({ userID, data }) {
@@ -21,18 +20,17 @@ export async function createClassroom({ userID, data }) {
   if (typeof data === "object" && !data.hasOwnProperty("name"))
     throw new TypeError("'Name' Field In  Not In Data");
 
-  const result = await client.post(path + userID + "/class", data);
-  const { instructor: instructorID } = result;
-
-  const { id, imageURL, email, name } = await getUser({ userID: instructorID });
-  return { ...result, instructor: { id, imageURL, email, name } };
+  const result = await client.put(`${path}/${userID}/classroom`, data);
+  console.log(result);
+  return result;
 }
 
 export async function enrollToClassroom({ userID, classID }) {
-  const response = await client.patch(path + `${userID}/enroll/${classID}`);
+  // PUT {{baseUri}}/v1/user/{{userID}}/classroom/{{classID}}/enroll HTTP/1.1
+  const response = await client.put(`${path}/${userID}/classroom/${classID}/enroll`);
   return response;
 }
 
 export async function fetchClassroomData({ classID }) {
-  return await client.get(`v1/class/${classID}`);
+  return await client.get(`v1/classroom/${classID}`);
 }

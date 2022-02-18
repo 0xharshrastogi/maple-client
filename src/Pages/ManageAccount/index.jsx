@@ -9,7 +9,7 @@ import { TabBar } from "./tabBar";
 export const ManageAccount = () => {
   const route = useRouteMatch();
   const {
-    user: { id: userID, name },
+    user: { userID, firstname },
   } = useAuth();
 
   const tabsData = useMemo(() => {
@@ -21,7 +21,7 @@ export const ManageAccount = () => {
 
   return (
     <section className="">
-      <Greeting name={name.first} messgage="Welcome To Mapple Dashboard." />
+      <Greeting name={firstname} messgage="Welcome To Mapple Dashboard." />
       <TabBar tabs={tabsData} />
 
       <section className="mx-10 px-4">
