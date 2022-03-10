@@ -1,0 +1,8 @@
+.tabItem {
+  color: #e73a33 !important;
+}
+
+.tabItem.active {
+  background-color: #e73a33 !important;
+  color: #fff !important;
+}

@@ -2,6 +2,10 @@ import client from "./config";
 
 const path = "/v1/user";
 
+export function getAllUser() {
+  return client.get(path);
+}
+
 export function getUser({ userID }) {
   if (typeof userID !== "number" && typeof userID !== "string")
     throw new TypeError("UserID should be STRING | NUMBER");

@@ -31,6 +31,6 @@ export async function enrollToClassroom({ userID, classID }) {
   return response;
 }
 
-export async function fetchClassroomData({ classID }) {
-  return await client.get(`v1/classroom/${classID}`);
+export function fetchClassroomData({ classID }) {
+  return client.get(`v1/classroom/${classID}`);
 }

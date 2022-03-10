@@ -1,8 +1,8 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { AuthenticatedRoute, Navbar, Spinner } from "../components";
 import { useAuth, useAuthProvider } from "../hooks";
-import { Home, Login, ManageAccount, Signup } from "../Pages";
+import { ClassroomDashboard, Home, Login, ManageAccount, Signup } from "../Pages";
 
 const Client_ID = process.env?.REACT_APP_GAPI_CLIENTID;
 const Client_Secret = process.env?.REACT_APP_CLIENT_SECRET;
@@ -34,8 +34,9 @@ const Routes = () => {
         {!login && <Route exact path="/signup" component={Signup} />}
         {!login && <Route path="/login" component={Login} />}
 
-        {/* <AuthenticatedRoute path="/private" component={() => <h1>Hello</h1>} /> */}
-
+        {login && <Redirect exact from="/class/:classID" to="/class/:classID/feed" />}
+        <AuthenticatedRoute path="/private" component={() => <h1>Hello</h1>} />
+        <AuthenticatedRoute path="/class/:classID" component={ClassroomDashboard} />
         <AuthenticatedRoute path="/manage" component={ManageAccount} />
 
         <Route path="*">404</Route>

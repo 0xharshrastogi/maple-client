@@ -1,0 +1,15 @@
+li.member-item {
+  padding: 0.5rem;
+  background-color: #eee;
+  border-radius: 0.5rem;
+  transition: background-color 170ms linear;
+}
+
+li.member-item:hover {
+  background-color: #ddd;
+}
+
+li.member-item h5 {
+  color: #e73a33;
+  font-weight: 900;
+}
