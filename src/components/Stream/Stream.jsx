@@ -1,30 +1,44 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { fetchClassroomData } from "../../api/server/classroom";
 import { useAuth } from "../../hooks";
 import useSocket from "../../hooks/useSocket";
+import Spinner from "../Spinner/Spinner";
 
 function getVideoDimension(height = 200, width = 300) {
   return { width, height };
 }
 
 const Stream = () => {
+  const [isAdmin, setIsAdmin] = useState({ loading: true, value: null });
   const [userStream, setUserStream] = useState({ loading: true, stream: null, permission: false });
   const { socket } = useSocket("http://localhost:8080/video-stream");
   const videoRef = React.useRef(null);
+  const { classID } = useParams();
   const auth = useAuth();
 
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Socket Connected Succefully");
+    const classData = () => fetchClassroomData({ classID });
+
+    classData().then((classData) => {
+      return setIsAdmin({ loading: false, value: classData.admin.UserID === auth.user.userID });
     });
 
-    return () => {
-      socket.disconnect();
-      // console.log(socket);
-    };
-  }, [socket]);
+    socket.on("connect", () => {
+      socket.emit("join.classroom", { classID, userID: auth.user.userID });
+    });
+
+    socket.on("NewUserConnected", (userID) => {
+      console.log("New User Connected", userID);
+    });
+
+    return () => {};
+  }, [socket, auth, classID]);
 
   React.useEffect(() => {
-    console.count("Get User Stream");
+    // console.count("Get User Stream");
+    // if (isAdmin.loading || !isAdmin.value) return;
+    console.log("Feting video permission");
     const video = videoRef.current;
 
     const getUserMediaAcess = () => {
@@ -51,7 +65,11 @@ const Stream = () => {
         userStream.stream.getTracks().forEach((track) => track.stop());
       })
     );
-  }, [userStream]);
+  }, [userStream, socket, isAdmin]);
+
+  if (isAdmin.loading) {
+    return <Spinner />;
+  }
 
   return (
     <section className="container p-0">
@@ -69,6 +87,13 @@ const Stream = () => {
               : "Permission for accessing webcam failed"}
           </span>
         </div>
+        <button
+          onClick={() => {
+            if (userStream.stream) userStream.stream.getTracks().forEach((track) => track.stop());
+          }}
+        >
+          TurnOff Camera
+        </button>
       </section>
     </section>
   );
