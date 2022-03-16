@@ -92,11 +92,13 @@ export const ClassroomDashboard = () => {
           )}
         />
         <Route exact path={`/class/:classID/stream`} component={Stream} />
-        <Route
-          exact
-          path={`/class/:classID/stream2`}
-          component={() => <Stream2 classData={classroom} />}
-        />
+        {!classroom.loading && (
+          <Route
+            exact
+            path={`/class/:classID/stream2`}
+            component={() => <Stream2 classData={classroom} />}
+          />
+        )}
       </div>
     </>
   );
