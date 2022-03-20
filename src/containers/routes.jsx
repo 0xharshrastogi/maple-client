@@ -31,7 +31,7 @@ const Routes = () => {
       <Navbar />
       <Switch>
         <Route exact path="/" component={Home} />
-        {!login && <Route exact path="/signup" component={Signup} />}
+        <Route exact path="/signup" component={Signup} />
         {!login && <Route path="/login" component={Login} />}
 
         {login && <Redirect exact from="/class/:classID" to="/class/:classID/feed" />}

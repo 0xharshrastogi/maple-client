@@ -1,13 +1,15 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import SimplePeer from "simple-peer";
 import io from "socket.io-client";
 
 export default () => {
   const { classID } = useParams();
+  const history = useHistory();
   const [peers, setPeers] = React.useState([]);
   const videoRef = React.useRef();
   const socketRef = React.useRef(null);
+  const [stream, setStream] = React.useState(null);
 
   // console.log({ classID, peers, videoRef, socketRef: socket, classData });
 
@@ -19,7 +21,15 @@ export default () => {
     navigator.mediaDevices
       .getUserMedia({ video: { height: 200, width: 300 }, audio: true })
       .then((mediaStream) => {
-        console.log("My Socket ID", socket.id);
+        setStream(mediaStream);
+        // console.log(new ImageCapture(mediaStream.getTracks()[0]));
+        // const imagecapture = new ImageCapture(mediaStream.getVideoTracks()[0]);
+        // imagecapture.takePhoto().then(async (blob) => {
+        //   // const bytes = await blob.arrayBuffer();
+        //   const what = URL.createObjectURL(blob);
+        //   console.log(what);
+        //   document.getElementById("test").src = URL.createObjectURL(blob);
+        // });
 
         videoRef.current.srcObject = mediaStream;
         socket.emit("join classroom", { classID });
@@ -55,6 +65,10 @@ export default () => {
       setPeers((peers) => [...peers, { peerID: from, peer }]);
     });
 
+    socket.on("user disconnected", ({ ID }) => {
+      setPeers((peers) => peers.filter(({ peerID }) => peerID !== ID));
+    });
+
     return () => {
       socket.disconnect();
     };
@@ -79,5 +93,13 @@ export default () => {
     };
   }, [peers]);
 
-  return { peers, videoRef };
+  const endCall = () => {
+    stream?.getTracks().forEach((track) => track.stop());
+    setPeers([]);
+    setStream(null);
+    socketRef.current.disconnect();
+    history.push(`/class/${classID}/feed`);
+  };
+
+  return { peers, videoRef, endCall };
 };
