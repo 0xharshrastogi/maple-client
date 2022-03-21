@@ -2,16 +2,31 @@ import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import SimplePeer from "simple-peer";
 import io from "socket.io-client";
+import client from "../../api/server/config";
+import { useAuth } from "../../hooks";
+
+const convertStream = async (stream) => {
+  const video = stream.getVideoTracks()[0];
+  const image = new ImageCapture(video);
+  const blob = image.takePhoto();
+  return blob;
+};
+
+const markAttendence = (userID, blob) => {
+  const data = new FormData();
+  data.append("userImage", blob);
+
+  client.patch(`/v1/user/${userID}/attendence/mark`, data);
+};
 
 export default () => {
+  const { user } = useAuth();
   const { classID } = useParams();
   const history = useHistory();
   const [peers, setPeers] = React.useState([]);
   const videoRef = React.useRef();
   const socketRef = React.useRef(null);
   const [stream, setStream] = React.useState(null);
-
-  // console.log({ classID, peers, videoRef, socketRef: socket, classData });
 
   React.useEffect(() => {
     socketRef.current = io.connect("http://localhost:8080/video-stream");
@@ -22,6 +37,7 @@ export default () => {
       .getUserMedia({ video: { height: 200, width: 300 }, audio: true })
       .then((mediaStream) => {
         setStream(mediaStream);
+
         // console.log(new ImageCapture(mediaStream.getTracks()[0]));
         // const imagecapture = new ImageCapture(mediaStream.getVideoTracks()[0]);
         // imagecapture.takePhoto().then(async (blob) => {
@@ -92,6 +108,11 @@ export default () => {
       socket.removeListener("signal accepted", handler);
     };
   }, [peers]);
+
+  React.useEffect(() => {
+    if (!stream) return;
+    convertStream(stream).then((blob) => markAttendence(user.userID, blob));
+  }, [stream, user]);
 
   const endCall = () => {
     stream?.getTracks().forEach((track) => track.stop());
