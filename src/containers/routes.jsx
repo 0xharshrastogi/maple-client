@@ -1,6 +1,7 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { AuthenticatedRoute, Navbar, Spinner } from "../components";
+import Dashboard from "../components/Dashboard/Dashboard";
 import { useAuth, useAuthProvider } from "../hooks";
 import { ClassroomDashboard, Home, Login, ManageAccount, Signup } from "../Pages";
 
@@ -38,6 +39,7 @@ const Routes = () => {
         <AuthenticatedRoute path="/private" component={() => <h1>Hello</h1>} />
         <AuthenticatedRoute path="/class/:classID" component={ClassroomDashboard} />
         <AuthenticatedRoute path="/manage" component={ManageAccount} />
+        <AuthenticatedRoute path="/manage2" component={Dashboard} />
 
         <Route path="*">404</Route>
       </Switch>

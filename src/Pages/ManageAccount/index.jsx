@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { Route, useRouteMatch } from "react-router-dom";
 import { useAuth } from "../../hooks";
 import { Greeting } from "./Greeting";
 import { UserJoinedClassrooms } from "./JoinedClassroom";
@@ -8,9 +8,8 @@ import { TabBar } from "./tabBar";
 
 export const ManageAccount = () => {
   const route = useRouteMatch();
-  const {
-    user: { userID, firstname },
-  } = useAuth();
+  const { user } = useAuth();
+  const { userID, firstname } = user;
 
   const tabsData = useMemo(() => {
     return [
@@ -25,15 +24,13 @@ export const ManageAccount = () => {
       <TabBar tabs={tabsData} />
 
       <section className="mx-10 px-4">
-        <Switch>
-          <Route exact path={`${route.path}/myclassrooms`}>
-            <UserClassrooms userID={userID} />
-          </Route>
+        <Route exact path={`${route.path}/myclassrooms`}>
+          <UserClassrooms userID={userID} />
+        </Route>
 
-          <Route exact path={`${route.path}/joinedclassrooms`}>
-            <UserJoinedClassrooms userID={userID} />
-          </Route>
-        </Switch>
+        <Route exact path={`${route.path}/joinedclassrooms`}>
+          <UserJoinedClassrooms userID={userID} />
+        </Route>
       </section>
     </section>
   );

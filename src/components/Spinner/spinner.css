@@ -6,6 +6,8 @@
 }
 .loader {
   --background: #4b4d4d1c;
+  --spinner-color: rgb(220, 38, 38);
+
   margin: 60px auto;
   font-size: 10px;
   position: relative;
@@ -13,7 +15,7 @@
   border-top: 1.1em solid var(--background);
   border-right: 1.1em solid var(--background);
   border-bottom: 1.1em solid var(--background);
-  border-left: 1.1em solid #0033a0;
+  border-left: 1.1em solid var(--spinner-color);
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
