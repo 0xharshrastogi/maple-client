@@ -33,8 +33,7 @@ export const Feature = () => {
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, rem!
               </ListItem>
               <ListItem icon={<FontAwesomeIcon color="white" icon={faAtom} />}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste,
-                voluptatum!
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatum!
               </ListItem>
               <ListItem icon={<FontAwesomeIcon color="white" icon={faAtom} />}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, quos?
@@ -54,16 +53,14 @@ export const Feature = () => {
         <article className="mx-auto flex flex-col md:flex-row md:justify-between md:gap-12 md:max-w-6xl">
           <div className="mt-6 space-y-5 md:space-y-10 feature-data md:mt-0">
             <h3 className="text-2xl font-bold text-gray-600">
-              A <span className="text-red-600">user interface</span> designed for
-              classroom.
+              A <span className="text-red-600">user interface</span> designed for classroom.
             </h3>
             <ul className="space-y-4 md:ml-6">
               <ListItem icon={<FontAwesomeIcon color="white" icon={faAtom} />}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, rem!
               </ListItem>
               <ListItem icon={<FontAwesomeIcon color="white" icon={faAtom} />}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste,
-                voluptatum!
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatum!
               </ListItem>
               <ListItem icon={<FontAwesomeIcon color="white" icon={faAtom} />}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint, quos?

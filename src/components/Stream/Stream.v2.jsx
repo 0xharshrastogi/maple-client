@@ -17,8 +17,9 @@ const Video = (props) => {
 };
 
 const Stream = ({ classData }) => {
-  const { peers, videoRef, endCall, turnOffVideo } = useSimplePeer(classData);
-  console.log("Already In Stream", peers);
+  const { peers, videoRef, endCall, turnOffCamera, turnOnCamera } = useSimplePeer(classData);
+  const [cameraEnabled, setCameraEnabled] = React.useState(true);
+  // const [microEnabled, setMicroEnabled] = React.useState(true);
 
   return (
     <>
@@ -29,7 +30,7 @@ const Stream = ({ classData }) => {
       >
         <img id="test" />
         <div>
-          <video className="rounded h-16 md:h-40" ref={videoRef} autoPlay muted />
+          <video className="rounded h-16 sm:h-28 md:h-40" ref={videoRef} autoPlay muted />
         </div>
         {peers.map(({ peerID, peer }) => (
           <div key={peerID}>
@@ -38,7 +39,20 @@ const Stream = ({ classData }) => {
         ))}
       </div>
 
-      <ToolPanal top="90%" left="50%" onEndCall={endCall} onTurnOffVideo={turnOffVideo} />
+      <ToolPanal
+        top="90%"
+        left="50%"
+        onEndCall={endCall}
+        onTurnOffVideo={() => {
+          setCameraEnabled(false);
+          turnOffCamera();
+        }}
+        onTurnOnCamera={() => {
+          setCameraEnabled(true);
+          turnOnCamera();
+        }}
+        cameraEnabled={cameraEnabled}
+      />
     </>
   );
 };

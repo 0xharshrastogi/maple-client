@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Route } from "react-router-dom";
 import { UserClassrooms as UserClassroomsAction } from "../../action";
 import { useAuth } from "../../hooks";
+import CreatedClassrooms from "./CreatedClassroom";
 import "./Dashboard.css";
-import JoinedClassrooms from "./JoinedClassrooms";
+import JoinedClassrooms from "./JoinedClassroom";
 
 const useCreatedClassroom = ({ userID }) => {
   const dispatch = useDispatch();
@@ -70,7 +71,8 @@ const Dashboard = () => {
 
             <div className="row">
               <div className="container">
-                <Route path="/manage2/created" component={JoinedClassrooms} />
+                <Route path="/manage2/created" component={CreatedClassrooms} />
+                <Route path="/manage2/joined" component={JoinedClassrooms} />
               </div>
             </div>
           </div>

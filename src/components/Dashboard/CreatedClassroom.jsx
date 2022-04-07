@@ -105,7 +105,7 @@ const EditClassForm = ({ name: initialName, description: initialDiscription, han
   );
 };
 
-const JoinedClassrooms = () => {
+const CreatedClassrooms = () => {
   const [editClass, setEditClass] = React.useState(null);
 
   const auth = useAuth();
@@ -153,4 +153,4 @@ const JoinedClassrooms = () => {
   );
 };
 
-export default JoinedClassrooms;
+export default CreatedClassrooms;

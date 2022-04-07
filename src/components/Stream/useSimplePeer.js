@@ -37,16 +37,6 @@ export default () => {
       .getUserMedia({ video: { height: 200, width: 300 }, audio: true })
       .then((mediaStream) => {
         setStream(mediaStream);
-
-        // console.log(new ImageCapture(mediaStream.getTracks()[0]));
-        // const imagecapture = new ImageCapture(mediaStream.getVideoTracks()[0]);
-        // imagecapture.takePhoto().then(async (blob) => {
-        //   // const bytes = await blob.arrayBuffer();
-        //   const what = URL.createObjectURL(blob);
-        //   console.log(what);
-        //   document.getElementById("test").src = URL.createObjectURL(blob);
-        // });
-
         videoRef.current.srcObject = mediaStream;
         socket.emit("join classroom", { classID });
         stream = mediaStream;
@@ -114,6 +104,16 @@ export default () => {
     convertStream(stream).then((blob) => markAttendence(user.userID, blob));
   }, [stream, user]);
 
+  React.useEffect(() => {
+    return () => {
+      if (!stream) return;
+      stream?.getTracks().forEach((track) => track.stop());
+      setPeers([]);
+      setStream(null);
+      socketRef.current.disconnect();
+    };
+  }, [stream]);
+
   const endCall = () => {
     stream?.getTracks().forEach((track) => track.stop());
     setPeers([]);
@@ -122,5 +122,15 @@ export default () => {
     history.push(`/class/${classID}/feed`);
   };
 
-  return { peers, videoRef, endCall };
+  const turnOffCamera = () => {
+    const videoTracks = stream.getVideoTracks();
+    videoTracks.forEach((track) => (track.enabled = false));
+  };
+
+  const turnOnCamera = () => {
+    const videoTracks = stream.getVideoTracks();
+    videoTracks.forEach((track) => (track.enabled = true));
+  };
+
+  return { peers, videoRef, endCall, turnOffCamera, turnOnCamera };
 };
