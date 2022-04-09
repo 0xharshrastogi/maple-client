@@ -12,14 +12,17 @@ const convertStream = async (stream) => {
   return blob;
 };
 
-const markAttendence = (userID, blob) => {
+const markAttendence = async (userID, classID, blob) => {
   const data = new FormData();
-  data.append("userImage", blob);
 
-  client.patch(`/v1/user/${userID}/attendence/mark`, data);
+  data.append("userImage", blob);
+  data.append("classID", classID);
+
+  return await client.patch(`/v1/user/${userID}/attendence/mark`, data);
 };
 
-export default () => {
+export default (handleAttendance) => {
+  handleAttendance;
   const { user } = useAuth();
   const { classID } = useParams();
   const history = useHistory();
@@ -101,8 +104,11 @@ export default () => {
 
   React.useEffect(() => {
     if (!stream) return;
-    convertStream(stream).then((blob) => markAttendence(user.userID, blob));
-  }, [stream, user]);
+    convertStream(stream)
+      .then((blob) => markAttendence(user.userID, classID, blob))
+      .then(() => handleAttendance("Attendence Marked Succesfully", "primary"))
+      .catch(() => handleAttendance("Attendence Not Market Succesfully", "danger"));
+  }, [classID, stream, user]);
 
   React.useEffect(() => {
     return () => {

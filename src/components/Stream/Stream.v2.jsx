@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
+import Toast, { useToast } from "../Toast/Toast";
 import ToolPanal from "./ToolPanal";
 import useSimplePeer from "./useSimplePeer";
 
@@ -16,11 +17,17 @@ const Video = (props) => {
   return <video className="rounded h-16 md:h-40" autoPlay muted ref={ref} />;
 };
 
-const Stream = ({ classData }) => {
-  const { peers, videoRef, endCall, turnOffCamera, turnOnCamera } = useSimplePeer(classData);
+const Stream = () => {
+  const normalToast = useToast(2500);
+  const dangerToast = useToast(2500);
+  const handleAttendanceToast = (message, type) => {
+    console.log(message, type);
+    if (type === "danger") dangerToast.show(message);
+    else normalToast.show(message);
+  };
+  const { peers, videoRef, endCall, turnOffCamera, turnOnCamera } =
+    useSimplePeer(handleAttendanceToast);
   const [cameraEnabled, setCameraEnabled] = React.useState(true);
-  // const [microEnabled, setMicroEnabled] = React.useState(true);
-
   return (
     <>
       <div
@@ -53,6 +60,9 @@ const Stream = ({ classData }) => {
         }}
         cameraEnabled={cameraEnabled}
       />
+
+      <Toast ref={normalToast.ref} varient="primary" active={normalToast.isActive} />
+      <Toast ref={dangerToast.ref} varient="danger" active={dangerToast.isActive} />
     </>
   );
 };
