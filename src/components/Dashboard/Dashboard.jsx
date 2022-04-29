@@ -31,8 +31,8 @@ const useCreatedClassroom = ({ userID }) => {
 
 const Dashboard = () => {
   const auth = useAuth();
-  console.log(auth);
   const created = useCreatedClassroom({ userID: auth.user.userID });
+  console.log(auth);
   console.log(created);
   return (
     <section className="container-fluid">
@@ -71,8 +71,8 @@ const Dashboard = () => {
 
             <div className="row">
               <div className="container">
-                <Route path="/manage2/created" component={CreatedClassrooms} />
                 <Route path="/manage2/joined" component={JoinedClassrooms} />
+                <Route path="/manage2/created" component={CreatedClassrooms} />
               </div>
             </div>
           </div>

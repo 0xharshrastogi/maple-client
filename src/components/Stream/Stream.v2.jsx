@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
+import Chat from "../Chat/Chat";
 import Toast, { useToast } from "../Toast/Toast";
 import ToolPanal from "./ToolPanal";
 import useSimplePeer from "./useSimplePeer";
@@ -30,20 +31,24 @@ const Stream = () => {
   const [cameraEnabled, setCameraEnabled] = React.useState(true);
   return (
     <>
-      <div
-        className={`mt-3 bg-gray-800 flex flex-wrap gap-4 p-2 ${
-          peers.length >= 3 ? "justify-around" : ""
-        }`}
-      >
-        <img id="test" />
-        <div>
-          <video className="rounded h-16 sm:h-28 md:h-40" ref={videoRef} autoPlay muted />
-        </div>
-        {peers.map(({ peerID, peer }) => (
-          <div key={peerID}>
-            <Video peer={peer} />
+      <div className="d-flex mt-3 gap-1 relative">
+        <div
+          className={`bg-gray-800 flex flex-wrap gap-4 p-2 flex-1 self-start ${
+            peers.length >= 3 ? "justify-around" : ""
+          }`}
+        >
+          <img id="test" />
+          <div>
+            <video className="rounded h-16 sm:h-28 md:h-40" ref={videoRef} autoPlay muted />
           </div>
-        ))}
+          {peers.map(({ peerID, peer }) => (
+            <div key={peerID}>
+              <Video peer={peer} />
+            </div>
+          ))}
+        </div>
+        {/* Chat System */}
+        <Chat />
       </div>
 
       <ToolPanal

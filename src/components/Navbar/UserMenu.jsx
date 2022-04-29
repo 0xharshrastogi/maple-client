@@ -44,12 +44,7 @@ const RenderUserJSX = ({ email, fullname, imageSRC, onSignout: signoutHandler })
             <RenderUserModel email={email} fullname={fullname} imageSRC={imageSRC} />
             <br />
             <div className="space-y-5 mt-7">
-              <Button
-                to="/manage/myclassrooms"
-                type="secondary"
-                onClick={handelModalToogle}
-                full
-              >
+              <Button to="/manage2/joined" type="secondary" onClick={handelModalToogle} full>
                 Manage Your Account
               </Button>
               <Button full onClick={signoutHandler}>
