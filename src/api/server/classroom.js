@@ -34,3 +34,7 @@ export async function enrollToClassroom({ userID, classID }) {
 export function fetchClassroomData({ classID }) {
   return client.get(`v1/classroom/${classID}`);
 }
+
+export async function uploadStudyResource(classId, data) {
+  return await client.post(`v1/class/${classId}/upload-resource`, data);
+}

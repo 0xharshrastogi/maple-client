@@ -3,6 +3,7 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { UserClassrooms as UserClassroomsAction } from "../../action";
 import { useAuth } from "../../hooks";
 import Button from "../Button/Button";
@@ -138,13 +139,15 @@ const CreatedClassrooms = () => {
         <div className="row gap-3 gap-sm-0">
           {data.map((data) => (
             <div key={data.classID} className="col-12 col-sm-6 col-md-4">
-              <ClassroomCard
-                classID={data.classID}
-                name={data.name}
-                description={data.description || "Lorem ipsum dolor sit amet."}
-                headerImage={data.headerImgUrl}
-                onEdit={() => setEditClass(data)}
-              />
+              <Link to={`/class/${data.classID}/members`}>
+                <ClassroomCard
+                  classID={data.classID}
+                  name={data.name}
+                  description={data.description || "Lorem ipsum dolor sit amet."}
+                  headerImage={data.headerImgUrl}
+                  onEdit={() => setEditClass(data)}
+                />
+              </Link>
             </div>
           ))}
         </div>

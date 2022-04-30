@@ -2,16 +2,17 @@ import PropTypes from "prop-types";
 import React from "react";
 import { SecondaryButton } from "./secondary";
 
-export const Button = ({ children, type }) => {
+export const Button = ({ children, type, ...rest }) => {
+  console.log(rest);
   switch (type) {
     case "primary":
-      return <button>{children}</button>;
+      return <button {...rest}>{children}</button>;
 
     case "secondary":
-      return <SecondaryButton>{children}</SecondaryButton>;
+      return <SecondaryButton {...rest}>{children}</SecondaryButton>;
 
     default:
-      return <button>{children}</button>;
+      return <button {...rest}>{children}</button>;
   }
 };
 
@@ -22,4 +23,5 @@ Button.defaultValues = {
 Button.propTypes = {
   children: PropTypes.node,
   type: PropTypes.string.isRequired,
+  rest: PropTypes.object,
 };

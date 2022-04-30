@@ -1,9 +1,13 @@
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { useAuth } from "../../hooks/useAuth";
 import Button from "../Button/Button";
+import { Button as Button2 } from "../ButtonModern";
 import "./Chat.css";
+import ResourseUpload from "./ResourseUpload";
 
 // const sampleMessage = [
 //   { from: "other", text: "Hello Brother", name: "Vinayak" },
@@ -54,11 +58,14 @@ const useChatSocket = () => {
     });
   }, [chat, socket]);
 
+  React.useEffect(() => () => socket.disconnect(), [socket]);
+
   return chat;
 };
 
 const Chat = () => {
   const [text, setText] = React.useState("");
+  const [isFileUploadModelOpen, setIsFileUploadModelOpen] = React.useState(false);
   const [messages, setMessages] = React.useState([]);
   const messageRef = React.useRef();
   const chat = useChatSocket();
@@ -83,34 +90,51 @@ const Chat = () => {
   }, [messages]);
 
   return (
-    <section className="w-80 bg-gray-100 p-2 chat-wrapper">
-      <h3 className="text-center title">Chats</h3>
+    <>
+      {isFileUploadModelOpen && (
+        <ResourseUpload handleClose={() => setIsFileUploadModelOpen(false)} />
+      )}
 
-      <div ref={messageRef} className="mt-1 px-2 py-1 bg-gray-200 rounded message-box">
-        {messages.map((message, i) => {
-          const { from, text, name } = message;
-          return (
-            <div className="message-text" data-message-owner={from} key={name + i}>
-              <span className="message-sender">{from === "other" ? name : "You"}</span>
-              <span>{text}</span>
-            </div>
-          );
-        })}
-      </div>
+      <section className="w-80 bg-gray-100 p-2 chat-wrapper">
+        <h3 className="text-center title">Chats</h3>
 
-      <form className="mt-1 form d-flex gap-2 create-message">
-        <input
-          type="text"
-          name="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          className="form-control"
-          placeholder="Type your doubt"
-          autoComplete="off"
-        />
-        <Button onClick={onSendMessage}>Send</Button>
-      </form>
-    </section>
+        <div ref={messageRef} className="mt-1 px-2 py-1 bg-gray-200 rounded message-box">
+          {messages.map((message, i) => {
+            const { from, text, name } = message;
+            return (
+              <div className="message-text" data-message-owner={from} key={name + i}>
+                <span className="message-sender">{from === "other" ? name : "You"}</span>
+                <span>{text}</span>
+              </div>
+            );
+          })}
+        </div>
+
+        <form className="mt-1 form d-flex gap-2 create-message">
+          <Button2
+            title="Upload Resourse"
+            type="primary"
+            onClick={(e) => {
+              e.preventDefault();
+              setIsFileUploadModelOpen(true);
+            }}
+          >
+            <FontAwesomeIcon icon={faUpload} />
+          </Button2>
+
+          <input
+            type="text"
+            name="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            className="form-control"
+            placeholder="Type your doubt"
+            autoComplete="off"
+          />
+          <Button onClick={onSendMessage}>Send</Button>
+        </form>
+      </section>
+    </>
   );
 };
 

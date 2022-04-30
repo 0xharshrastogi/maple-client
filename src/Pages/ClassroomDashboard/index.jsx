@@ -69,9 +69,10 @@ export const ClassroomDashboard = () => {
 
         <div className="mb-3">
           <Tabs.Container>
-            <Tabs.Item to={`/class/${classID}/feed`}>Feed</Tabs.Item>
-            <Tabs.Item to={`/class/${classID}/members`}>Members</Tabs.Item>
             <Tabs.Item to={`/class/${classID}/stream`}>Stream</Tabs.Item>
+            <Tabs.Item to={`/class/${classID}/members`}>Members</Tabs.Item>
+            <Tabs.Item to={`/class/${classID}/resourse`}>Resourse</Tabs.Item>
+            <Tabs.Item to={`/class/${classID}/feed`}>Feed</Tabs.Item>
           </Tabs.Container>
         </div>
 
@@ -96,6 +97,8 @@ export const ClassroomDashboard = () => {
             component={() => <Stream2 classData={classroom} />}
           />
         )}
+
+        <Route path="resource" render={() => null} />
       </div>
     </>
   );
