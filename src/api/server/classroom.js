@@ -38,3 +38,7 @@ export function fetchClassroomData({ classID }) {
 export async function uploadStudyResource(classId, data) {
   return await client.post(`v1/class/${classId}/upload-resource`, data);
 }
+
+export async function getAllResourceFiles(classID) {
+  return await client.get(`v1/class/${classID}/resource`);
+}

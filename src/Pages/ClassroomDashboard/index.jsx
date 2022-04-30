@@ -3,6 +3,7 @@ import React from "react";
 import { Route, useParams } from "react-router-dom";
 import { fetchClassroomData } from "../../api/server/classroom";
 import Member from "../../components/Classroom/Member";
+import Resource from "../../components/Resource/Resource";
 import Stream2 from "../../components/Stream/Stream.v2";
 import Tabs from "../../components/Tabs/Tabs";
 
@@ -71,7 +72,7 @@ export const ClassroomDashboard = () => {
           <Tabs.Container>
             <Tabs.Item to={`/class/${classID}/stream`}>Stream</Tabs.Item>
             <Tabs.Item to={`/class/${classID}/members`}>Members</Tabs.Item>
-            <Tabs.Item to={`/class/${classID}/resourse`}>Resourse</Tabs.Item>
+            <Tabs.Item to={`/class/${classID}/resource`}>Resource</Tabs.Item>
             <Tabs.Item to={`/class/${classID}/feed`}>Feed</Tabs.Item>
           </Tabs.Container>
         </div>
@@ -98,7 +99,7 @@ export const ClassroomDashboard = () => {
           />
         )}
 
-        <Route path="resource" render={() => null} />
+        <Route path="/class/:classID/resource" render={() => <Resource classID={classID} />} />
       </div>
     </>
   );

@@ -23,7 +23,7 @@ const ResourseUpload = ({ handleClose }) => {
         const formdata = new FormData();
         formdata.append("study-resource", resourse);
 
-        uploadStudyResource(classID, formdata);
+        uploadStudyResource(classID, formdata).then(handleClose);
       }}
     />
   );
