@@ -1,3 +1,5 @@
+import { faDownload, faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { getAllResourceFiles } from "../../api/server/classroom";
 import { useAsync } from "../../hooks/useAsync";
@@ -7,7 +9,12 @@ import ResourseUpload from "../Chat/ResourseUpload";
 // eslint-disable-next-line react/prop-types
 const Resource = ({ classID }) => {
   const [isFileUploadModelOpen, setIsFileUploadModelOpen] = React.useState(false);
-  const { data, loading, error } = useAsync(() => getAllResourceFiles(classID), []);
+  const {
+    data,
+    loading,
+    error,
+    reload: loadResourseAgain,
+  } = useAsync(() => getAllResourceFiles(classID), []);
   if (loading || !data) {
     return <h1>Loading ............</h1>;
   }
@@ -21,7 +28,12 @@ const Resource = ({ classID }) => {
   return (
     <>
       {isFileUploadModelOpen && (
-        <ResourseUpload handleClose={() => setIsFileUploadModelOpen(false)} />
+        <ResourseUpload
+          handleClose={() => {
+            setIsFileUploadModelOpen(false);
+            loadResourseAgain();
+          }}
+        />
       )}
 
       <div className="mt-3 text-right">
@@ -39,13 +51,15 @@ const Resource = ({ classID }) => {
           {files.map((data) => {
             return (
               <tr key={data.path}>
-                <td>{data.filename}</td>
+                <td>
+                  <FontAwesomeIcon icon={faFilePdf} /> {data.filename}
+                </td>
                 <td>
                   <a
                     className="text-blue-500 underline"
                     href={`http://localhost:8080/v1/class/${classID}/resource/download/${data.path}`}
                   >
-                    Download
+                    Download <FontAwesomeIcon icon={faDownload} />
                   </a>
                 </td>
               </tr>

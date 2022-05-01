@@ -3,6 +3,7 @@ import React from "react";
 import { Route, useParams } from "react-router-dom";
 import { fetchClassroomData } from "../../api/server/classroom";
 import Member from "../../components/Classroom/Member";
+import Feeds from "../../components/Feeds/Feeds";
 import Resource from "../../components/Resource/Resource";
 import Stream2 from "../../components/Stream/Stream.v2";
 import Tabs from "../../components/Tabs/Tabs";
@@ -79,12 +80,17 @@ export const ClassroomDashboard = () => {
 
         <hr />
 
-        <Route
-          path={`/class/${classID}/feed`}
-          render={() => {
-            return <div>Feed</div>;
-          }}
-        />
+        {console.log(classroom)}
+
+        {!classroom.loading && (
+          <Route
+            path={`/class/${classID}/feed`}
+            render={() => {
+              return <Feeds data={classroom} />;
+            }}
+          />
+        )}
+
         <Route
           path={`/class/:classID/members`}
           render={() => (

@@ -40,6 +40,7 @@ export default (handleAttendance) => {
       .getUserMedia({ video: { height: 200, width: 300 }, audio: true })
       .then((mediaStream) => {
         setStream(mediaStream);
+        if (!videoRef.current) return null;
         videoRef.current.srcObject = mediaStream;
         socket.emit("join classroom", { classID });
         stream = mediaStream;
