@@ -84,7 +84,7 @@ export const ClassroomDashboard = () => {
 
         {!classroom.loading && (
           <Route
-            path={`/class/${classID}/feed`}
+            path={`/class/:classID/feed`}
             render={() => {
               return <Feeds data={classroom} />;
             }}

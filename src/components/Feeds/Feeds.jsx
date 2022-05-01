@@ -2,7 +2,12 @@
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { useAuth } from "../../hooks";
+import { useParams } from "react-router-dom";
+import {
+  createAndPublishNotification,
+  getAllNotificationOfClassroom,
+} from "../../api/server/notification";
+import { useAsync, useAuth } from "../../hooks";
 import Button from "../Button/Button";
 import Model from "../Model/Model";
 
@@ -12,11 +17,15 @@ import Model from "../Model/Model";
 // TimeLimit: 2hr
 
 // eslint-disable-next-line react/prop-types
-const NotifyPanel = ({ data }) => {
+const NotifyPanel = ({ onPublish }) => {
   const [text, setText] = React.useState("");
-  const auth = useAuth();
+  const { classID } = useParams();
 
-  console.log({ data, auth });
+  const publishNotification = async () => {
+    console.log({ classID });
+    const response = await createAndPublishNotification({ classID, title: text });
+    console.log(response);
+  };
 
   return (
     <section className="w-80 max-w-sm">
@@ -43,20 +52,33 @@ const NotifyPanel = ({ data }) => {
         </div>
 
         <div className="mt-3">
-          <Button onClick={(e) => e.preventDefault()}>Submit</Button>
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              publishNotification().then(onPublish);
+            }}
+          >
+            Submit
+          </Button>
         </div>
       </form>
     </section>
   );
 };
 
-const NotifyComponent = ({ data }) => {
+const NotifyComponent = ({ data, onPublish }) => {
   const [isNotifyPanelOpen, setIsNotifyPanelOpen] = React.useState(false);
   return (
     <>
       {isNotifyPanelOpen && (
         <Model onClose={() => setIsNotifyPanelOpen(false)}>
-          <NotifyPanel data={data} />
+          <NotifyPanel
+            onPublish={(...args) => {
+              setIsNotifyPanelOpen(false);
+              onPublish(args);
+            }}
+            data={data}
+          />
         </Model>
       )}
 
@@ -71,9 +93,40 @@ const NotifyComponent = ({ data }) => {
 
 const Feeds = ({ data }) => {
   const auth = useAuth();
+  const { classID } = useParams();
+  const notification = useAsync(() => getAllNotificationOfClassroom(classID), []);
+
+  console.log(notification);
   const isAdmin = data.data.admin.userID === auth.user.userID;
-  console.log({ isAdmin });
-  return <section className="mt-3">{isAdmin && <NotifyComponent data={data} />}</section>;
+  return (
+    <section className="mt-3">
+      {isAdmin && <NotifyComponent data={data} onPublish={() => notification.reload()} />}
+
+      {!notification.data ? (
+        "Loading ........"
+      ) : (
+        <div className="container">
+          <section className="row">
+            {notification.data.map((notification) => {
+              return (
+                <div
+                  className="shadow rounded col-sm-5 text-gray-800 px-2 py-3 h-30 border m-3"
+                  key={notification._id}
+                >
+                  <pre className="font-sans border-l-4 border-uiRed pl-3 h-full">
+                    <span className="text-gray-500 font-light">
+                      <small>{new Date(notification.createdAt).toLocaleString()}</small>
+                    </span>
+                    <p className="font-medium">{notification.title}</p>
+                  </pre>
+                </div>
+              );
+            })}
+          </section>
+        </div>
+      )}
+    </section>
+  );
 };
 
 export default Feeds;
