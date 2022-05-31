@@ -1,5 +1,4 @@
 import React from "react";
-import { Footer } from "../../components";
 import { Feature } from "./feature";
 import { Introduction } from "./introduction";
 import { LandingSection } from "./landingSection";
@@ -11,7 +10,7 @@ export const Home = () => {
       <LandingSection />
       <Introduction />
       <Feature />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

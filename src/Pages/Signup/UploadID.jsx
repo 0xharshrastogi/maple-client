@@ -9,12 +9,12 @@ const useFileUpload = ({ onUploading, onUploaded, onError, name }) => {
   const { user } = useAuth();
   const localUri = React.useMemo(() => file && URL.createObjectURL(file), [file]);
   const { userID } = user;
+  console.log(user);
 
   const onFileChange = (e) => setFile(e.target.files[0]);
   const clearFile = () => setFile(null);
 
   const upload = async () => {
-    console.log(file);
     const data = new FormData();
     data.append(name || "image", file);
 

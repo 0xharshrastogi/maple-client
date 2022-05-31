@@ -28,11 +28,10 @@ export async function fetchUserData(GoogleAuth) {
   try {
     // TODO: Getiing Unknow Response From Server To BE FIxed
     const data = await server.User.getUser({ userID });
+    console.log(data);
     return data.user;
   } catch (err) {
-    if (err.status === "Not Found")
-      return postNewUserRecord(GoogleAuth.currentUser.get());
-
+    if (err.status === "Not Found") return await postNewUserRecord(GoogleAuth.currentUser.get());
     return err;
   }
 }

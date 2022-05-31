@@ -104,6 +104,7 @@ export const useAuthProvider = ({ clientID, API_KEY }) => {
 
     try {
       const userData = await fetchUserData(auth);
+      console.log({ userData });
       dispatch({ type: "USER_SIGN_IN", payload: userData });
     } catch (err) {
       console.log(err);
@@ -133,12 +134,10 @@ export const useAuthProvider = ({ clientID, API_KEY }) => {
 
     auth.isSignedIn.listen((login) => (login ? handleSignin() : handleSignout()));
   }, [auth]);
-
+  console.log(user);
   const Provider = useCallback(
     ({ children }) => (
-      <AuthContext.Provider
-        value={{ signout, signin, error: UserError, isLogin, user, loading }}
-      >
+      <AuthContext.Provider value={{ signout, signin, error: UserError, isLogin, user, loading }}>
         {children}
       </AuthContext.Provider>
     ),

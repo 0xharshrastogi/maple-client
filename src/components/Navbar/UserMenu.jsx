@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useCallback, useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import useToolTip from "../../hooks/useToolTip";
 import Button from "../Button/Button";
@@ -11,7 +12,8 @@ const RenderUserJSX = ({ email, fullname, imageSRC, onSignout: signoutHandler })
   const [portalActive, setPortalActive] = useState(false);
   const largerDisplay = useMediaQuery("(min-width: 640px)", true, false);
   const [tooltipActice, setTooltipActice] = useToolTip(false);
-
+  const auth = useAuth();
+  auth;
   const handelModalToogle = useCallback(() => {
     setPortalActive((state) => !state);
   }, [setPortalActive]);
@@ -47,6 +49,14 @@ const RenderUserJSX = ({ email, fullname, imageSRC, onSignout: signoutHandler })
               <Button to="/manage2/joined" type="secondary" onClick={handelModalToogle} full>
                 Manage Your Account
               </Button>
+              <a
+                className="bg-gray-300 text-gray-700 py-2 px-2 sm:py-2 sm:px-3.5 rounded-2xl font-bold pointer hover:bg-gray-400 btn inline-block w-full"
+                target="_blank"
+                href="http://localhost:8080/v1/user/102722126196715299780/attendence/csv"
+                rel="noreferrer"
+              >
+                Download Attendence Report
+              </a>
               <Button full onClick={signoutHandler}>
                 Logout
               </Button>

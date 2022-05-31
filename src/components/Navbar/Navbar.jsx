@@ -10,6 +10,7 @@ import RenderUserJSX from "./UserMenu";
 const Navbar = ({ logo }) => {
   const { user, isLogin, signout: signoutHandler } = useAuth();
   const login = isLogin();
+  console.log(user);
 
   return (
     <nav className="flex items-center justify-between py-3 px-2 navbar md:px-9">

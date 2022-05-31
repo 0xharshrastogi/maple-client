@@ -5,12 +5,14 @@
   "version": "0.1.0",
   "configurations": [
     {
-      "name": "Launch Program",
-      "program": "${workspaceFolder}/app.js",
+      "name": "Launch via NPM",
       "request": "launch",
+      "runtimeArgs": ["start"],
+      "runtimeExecutable": "yarn",
       "skipFiles": ["<node_internals>/**"],
       "type": "node"
     },
+
     {
       "type": "pwa-chrome",
       "request": "launch",

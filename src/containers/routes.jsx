@@ -10,6 +10,7 @@ const Client_Secret = process.env?.REACT_APP_CLIENT_SECRET;
 
 const Routes = () => {
   const auth = useAuth();
+  console.log(auth);
 
   if (auth.loading) {
     return (
